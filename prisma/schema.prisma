@@ -15,10 +15,48 @@ datasource db {
 }
 
 model User {
-  id                   Int       @id @default(autoincrement())
-  email                String    @unique
-  name                 String?
-  password             String
-  createdAt            DateTime  @default(now())
-  updatedAt            DateTime  @updatedAt
+  id        Int       @id @default(autoincrement())
+  email     String    @unique
+  name      String?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  questions Question[]
+  comments  Comment[]
+  answers   Answer[]
+}
+
+model Question {
+  id          Int      @id @default(autoincrement())
+  text        String
+  option1     String
+  option2     String
+  category    String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  userId      Int
+  user        User     @relation(fields: [userId], references: [id])
+  comments    Comment[]
+  answers     Answer[]
+}
+
+model Comment {
+  id          Int      @id @default(autoincrement())
+  text        String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  userId      Int
+  questionId  Int
+  user        User     @relation(fields: [userId], references: [id])
+  question    Question @relation(fields: [questionId], references: [id])
+}
+
+model Answer {
+  id          Int      @id @default(autoincrement())
+  option      Int   // 0 -> option1, 1 -> option2
+  createdAt   DateTime @default(now())
+  userId      Int
+  questionId  Int
+  user        User     @relation(fields: [userId], references: [id])
+  question    Question @relation(fields: [questionId], references: [id])
+  @@unique([userId, questionId]) // Bir kullanıcı bir soruya yalnızca bir kez cevap verebilir
 }
