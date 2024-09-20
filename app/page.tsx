@@ -8,35 +8,30 @@ import {
   QueryClient,
 } from "@tanstack/react-query";
 import * as React from "react";
-import {
-  ResizableHandle,
-  ResizablePanel,
-  ResizablePanelGroup,
-} from "@/components/ui/resizable";
-import Questions from "@/components/questions";
-import QuestionDetail from "@/components/question-detail";
-export default async function Home() {
+
+import Navbar from "@/components/navbar";
+import { QUESTIONS_MOCK_DATA } from "@/constants";
+import Content from "@/components/content";
+import { getQuestions } from "@/lib/actions";
+const Home = async () => {
   const user = auth();
   const current = await currentUser();
+
   const queryClient = new QueryClient();
+
   await queryClient.prefetchQuery({
-    queryKey: ["matches"],
-    queryFn: () => {},
+    queryKey: ["questions"],
+    queryFn: getQuestions,
   });
 
   return (
-    <main className="h-screen">
-      <ResizablePanelGroup direction="horizontal">
-        <ResizablePanel minSize={30}>
-          <Questions />
-        </ResizablePanel>
-
-        <ResizableHandle withHandle />
-
-        <ResizablePanel minSize={30}>
-          <QuestionDetail />
-        </ResizablePanel>
-      </ResizablePanelGroup>
+    <main className="h-screen flex font-sans">
+      <Navbar />
+      <HydrationBoundary state={dehydrate(queryClient)}>
+        <Content />
+      </HydrationBoundary>
     </main>
   );
-}
+};
+
+export default Home;
