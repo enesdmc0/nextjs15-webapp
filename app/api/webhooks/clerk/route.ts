@@ -62,7 +62,7 @@ export async function POST(req: Request) {
                 data: {
                     email: email_addresses[0].email_address ,
                     name: first_name || 'Unknown',
-                    password: 'password',
+                    
                 },
             });
             console.info('New user created successfully');

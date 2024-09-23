@@ -10,7 +10,6 @@ import {
 import * as React from "react";
 
 import Navbar from "@/components/navbar";
-import { QUESTIONS_MOCK_DATA } from "@/constants";
 import Content from "@/components/content";
 import { getQuestions } from "@/lib/actions";
 const Home = async () => {

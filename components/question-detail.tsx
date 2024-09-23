@@ -32,7 +32,7 @@ const QuestionDetail: FC<Props> = ({ questions, size }) => {
     );
   }
 
-  const question = questions.find((x) => x.text === activeQuestion);
+  const question = questions.find((x) => x.id === activeQuestion);
 
   if (!question) {
     return (

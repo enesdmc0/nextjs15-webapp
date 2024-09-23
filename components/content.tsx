@@ -7,9 +7,17 @@ import {
 } from "@/components/ui/resizable";
 import Questions from "@/components/questions";
 import QuestionDetail from "@/components/question-detail";
-import { QUESTIONS_MOCK_DATA } from "@/constants";
+import { QueryClient, useQuery } from "@tanstack/react-query";
+import { getQuestions } from "@/lib/actions";
+import { QuestionsType } from "@/types";
+import { NewQuestion } from "./new-question";
 const Content = () => {
   const [sizes, setSizes] = useState<number[]>([]);
+
+  const { data: questions } = useQuery({
+    queryKey: ["questions"],
+    queryFn: getQuestions,
+  });
 
   return (
     <ResizablePanelGroup
@@ -21,14 +29,13 @@ const Content = () => {
       }}
     >
       <ResizablePanel minSize={40}>
-        
-        <Questions size={sizes[0]} />
+        <Questions size={sizes[0]} questions={questions ?? []} />
       </ResizablePanel>
 
       <ResizableHandle withHandle />
 
       <ResizablePanel minSize={30}>
-        <QuestionDetail questions={QUESTIONS_MOCK_DATA} size={sizes[0]} />
+        <QuestionDetail questions={questions ?? []} size={sizes[0]} />
       </ResizablePanel>
     </ResizablePanelGroup>
   );

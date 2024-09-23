@@ -14,34 +14,24 @@ import {
 import { PlusCircleIcon, Trash2 } from "lucide-react";
 import { Separator } from "./ui/separator";
 import { QuestionsType } from "@/types";
-import { EnvelopeOpenIcon, QuestionMarkIcon } from "@radix-ui/react-icons";
-import { useQuery } from "@tanstack/react-query";
-import { getQuestions } from "@/lib/actions";
+import { NewQuestion } from "./new-question";
+
 
 interface Props {
   size: number;
+  questions: QuestionsType[];
 }
 
-const Questions: FC<Props> = ({ size }) => {
+const Questions: FC<Props> = ({ size, questions }) => {
   const [activeQuestion, setActiveQuestion] = useAtom(activeQuestionAtom);
   const category = useAtomValue(activeCategoryAtom);
-  const { data: questions } = useQuery({
-    queryKey: ['questions'],
-    queryFn: () => getQuestions(),
-  })
 
-  console.log(questions)
-  
 
-  // const filteredQuestions = questions?.filter((x) => x.category === category);
-
-  
+  const filteredQuestions = questions?.filter((x) => x.category === category);
 
   return (
     <div className="flex flex-col">
       <ScrollArea className="w-full h-screen pb-4 ">
-
-
         <div className="px-4 py-2 flex justify-end">
           <TooltipProvider>
             <Tooltip>
@@ -54,22 +44,20 @@ const Questions: FC<Props> = ({ size }) => {
               <TooltipContent>Move to trash</TooltipContent>
             </Tooltip>
           </TooltipProvider>
-          <Button>
-            <PlusCircleIcon className="mr-2 h-4 w-4" /> Soru Sor
-          </Button>
+          <NewQuestion />
         </div>
 
         <Separator />
 
         {/* questions */}
-        {/* <div className="flex flex-col gap-4 px-4 mt-4">
+        <div className="flex flex-col gap-4 px-4 mt-4">
           {filteredQuestions.map((x, i) => (
             <div
-              onClick={() => setActiveQuestion(x.text)}
+              onClick={() => setActiveQuestion(x.id)}
               key={i}
               className={cn(
                 "border rounded-md p-4 space-y-4",
-                activeQuestion === x.text && "bg-muted"
+                activeQuestion === x.id && "bg-muted"
               )}
             >
               <div className="flex items-center justify-between">
@@ -87,7 +75,7 @@ const Questions: FC<Props> = ({ size }) => {
               </div>
             </div>
           ))}
-        </div> */}
+        </div>
       </ScrollArea>
       d
     </div>
