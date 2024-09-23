@@ -27,7 +27,6 @@ import { createQuestion } from "@/lib/actions";
 export function NewQuestion() {
     const [data, action, isPending] = useActionState(createQuestion, null)
 
-    console.log(data)
 
   return (
     <Dialog>

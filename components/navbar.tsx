@@ -1,15 +1,18 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { categories } from "@/constants";
-import { activeCategoryAtom } from "@/lib/atom";
 import { cn } from "@/lib/utils";
-import { useAtom } from "jotai";
 import Image from "next/image";
 import React from "react";
 import { Separator } from "./ui/separator";
+import { useRouter, useParams } from "next/navigation";
 
 const Navbar = () => {
-  const [activeCategory, setActiveCategory] = useAtom(activeCategoryAtom);
+  const router = useRouter();
+  const {slug} = useParams()
+
+const category = slug ? slug[0] : "all";
+
 
   const diger = {
     anasayfa: "Anasayfa",
@@ -37,9 +40,9 @@ const Navbar = () => {
         <Separator />
         {Object.entries(categories).map(([key, value], i) => (
           <Button
-            onClick={() => setActiveCategory(key)}
+            onClick={() => router.push(`/${key}`)}
             key={i}
-            variant={activeCategory === key ? "secondary" : "ghost"}
+            variant={category === key ? "secondary" : "ghost"}
             className="w-full justify-start"
           >
             <svg
@@ -70,9 +73,9 @@ const Navbar = () => {
         <Separator />
         {Object.entries(diger).map(([key, value], i) => (
           <Button
-            onClick={() => setActiveCategory(key)}
+            // onClick={() => setActiveCategory(key)}
             key={i}
-            variant={activeCategory === key ? "secondary" : "ghost"}
+            // variant={activeCategory === key ? "secondary" : "ghost"}
             className="w-full justify-start"
           >
             <svg

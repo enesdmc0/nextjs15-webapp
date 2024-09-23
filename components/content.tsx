@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { FC, useState } from "react";
 import {
   ResizableHandle,
   ResizablePanel,
@@ -7,17 +7,15 @@ import {
 } from "@/components/ui/resizable";
 import Questions from "@/components/questions";
 import QuestionDetail from "@/components/question-detail";
-import { QueryClient, useQuery } from "@tanstack/react-query";
-import { getQuestions } from "@/lib/actions";
-import { QuestionsType } from "@/types";
-import { NewQuestion } from "./new-question";
-const Content = () => {
-  const [sizes, setSizes] = useState<number[]>([]);
+import { Comment, Question } from "@prisma/client";
 
-  const { data: questions } = useQuery({
-    queryKey: ["questions"],
-    queryFn: getQuestions,
-  });
+interface Props {
+  questions: Question[] ;
+  comments: Comment[];
+}
+
+const Content: FC<Props> = ({ questions, comments }) => {
+  const [sizes, setSizes] = useState<number[]>([]);
 
   return (
     <ResizablePanelGroup
@@ -35,7 +33,7 @@ const Content = () => {
       <ResizableHandle withHandle />
 
       <ResizablePanel minSize={30}>
-        <QuestionDetail questions={questions ?? []} size={sizes[0]} />
+        <QuestionDetail questions={questions ?? []} comments={comments} size={sizes[0]} />
       </ResizablePanel>
     </ResizablePanelGroup>
   );

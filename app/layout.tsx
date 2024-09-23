@@ -4,7 +4,7 @@ import "./globals.css";
 import { Providers } from "@/providers/jotai-provider";
 import { ThemeProvider } from "@/providers/theme-provider";
 import { ClerkProvider } from "@clerk/nextjs";
-import QueryProviders from "@/providers/query-provider";
+
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
   variable: "--font-geist-sans",
@@ -28,7 +28,6 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <ClerkProvider>
-        <QueryProviders>
           <Providers>
             <ThemeProvider
               attribute="class"
@@ -39,7 +38,6 @@ export default function RootLayout({
               {children}
             </ThemeProvider>
           </Providers>
-          </QueryProviders>
         </ClerkProvider>
       </body>
     </html>

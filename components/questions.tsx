@@ -2,8 +2,6 @@
 import React, { FC } from "react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Button } from "./ui/button";
-import { useAtom, useAtomValue } from "jotai";
-import { activeCategoryAtom, activeQuestionAtom } from "@/lib/atom";
 import { cn } from "@/lib/utils";
 import {
   Tooltip,
@@ -11,24 +9,22 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { PlusCircleIcon, Trash2 } from "lucide-react";
+import { Trash2 } from "lucide-react";
 import { Separator } from "./ui/separator";
-import { QuestionsType } from "@/types";
 import { NewQuestion } from "./new-question";
-
+import { useParams, useRouter } from "next/navigation";
+import { Question } from "@prisma/client";
 
 interface Props {
   size: number;
-  questions: QuestionsType[];
+  questions: Question[];
 }
 
 const Questions: FC<Props> = ({ size, questions }) => {
-  const [activeQuestion, setActiveQuestion] = useAtom(activeQuestionAtom);
-  const category = useAtomValue(activeCategoryAtom);
-
-
-  const filteredQuestions = questions?.filter((x) => x.category === category);
-
+  const router = useRouter();
+  const { slug } = useParams();
+  const category = slug ? slug[0] : "all";
+  const activeQuestion = slug ? slug[1] : null;
   return (
     <div className="flex flex-col">
       <ScrollArea className="w-full h-screen pb-4 ">
@@ -51,13 +47,13 @@ const Questions: FC<Props> = ({ size, questions }) => {
 
         {/* questions */}
         <div className="flex flex-col gap-4 px-4 mt-4">
-          {filteredQuestions.map((x, i) => (
+          {questions.map((x, i) => (
             <div
-              onClick={() => setActiveQuestion(x.id)}
+              onClick={() => router.push(`/${category}/${x.id}`)}
               key={i}
               className={cn(
                 "border rounded-md p-4 space-y-4",
-                activeQuestion === x.id && "bg-muted"
+                Number(activeQuestion) === x.id && "bg-muted"
               )}
             >
               <div className="flex items-center justify-between">
