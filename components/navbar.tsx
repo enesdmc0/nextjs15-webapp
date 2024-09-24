@@ -6,6 +6,9 @@ import Image from "next/image";
 import React from "react";
 import { Separator } from "./ui/separator";
 import { useRouter, useParams } from "next/navigation";
+import { ModeToggle } from "@/components/mode-toggle";
+import { SignedIn, UserButton } from "@clerk/nextjs";
+import { SignOutButton } from "@clerk/nextjs";
 
 const Navbar = () => {
   const router = useRouter();
@@ -96,6 +99,10 @@ const category = slug ? slug[0] : "all";
             {value}
           </Button>
         ))}
+      </div>
+      <div>
+      <SignOutButton/>
+      <ModeToggle/>
       </div>
     </div>
   );

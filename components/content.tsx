@@ -7,14 +7,15 @@ import {
 } from "@/components/ui/resizable";
 import Questions from "@/components/questions";
 import QuestionDetail from "@/components/question-detail";
-import { Comment, Question } from "@prisma/client";
+import { Answer, Comment, Question } from "@prisma/client";
 
 interface Props {
   questions: Question[] ;
   comments: Comment[];
+  answers: Answer[];
 }
 
-const Content: FC<Props> = ({ questions, comments }) => {
+const Content: FC<Props> = ({ questions, comments, answers }) => {
   const [sizes, setSizes] = useState<number[]>([]);
 
   return (
@@ -27,13 +28,13 @@ const Content: FC<Props> = ({ questions, comments }) => {
       }}
     >
       <ResizablePanel minSize={40}>
-        <Questions size={sizes[0]} questions={questions ?? []} />
+        <Questions size={sizes[0]} questions={questions ?? []} answers={answers} />
       </ResizablePanel>
 
       <ResizableHandle withHandle />
 
       <ResizablePanel minSize={30}>
-        <QuestionDetail questions={questions ?? []} comments={comments} size={sizes[0]} />
+        <QuestionDetail questions={questions ?? []} answers={answers} comments={comments} size={sizes[0]} />
       </ResizablePanel>
     </ResizablePanelGroup>
   );
