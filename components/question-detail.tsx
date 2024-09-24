@@ -55,10 +55,12 @@ const QuestionDetail: FC<Props> = ({ questions, size, comments, answers }) => {
       ...x,
     };
   });
+
+  
   const question = customQuestions.find((x) => x.id === Number(activeQuestion));
   if (!question) {
     return (
-      <div className="w-full h-screen bg-white border border-gray-200">
+      <div className="w-full h-screen border border-gray-200">
         Soru Bulunamadı.
       </div>
     );
@@ -73,7 +75,7 @@ const QuestionDetail: FC<Props> = ({ questions, size, comments, answers }) => {
 
   return (
     <ScrollArea className="h-screen">
-      <div className="flex flex-col h-screen pb-4 gap-4 ">
+      <div className="flex flex-col h-screen pb-4 ">
         <div className="px-4 py-2 flex justify-end">
           <TooltipProvider>
             <Tooltip>
@@ -90,14 +92,14 @@ const QuestionDetail: FC<Props> = ({ questions, size, comments, answers }) => {
 
         <Separator />
 
-        <div className="flex flex-col px-4 mt-4">
+        <div className="flex flex-col px-4 my-4">
           <p className="font-semibold text-xl">{text}</p>
         </div>
 
         <Dialog open={open} onOpenChange={setOpen}>
           {question.answer === undefined ? (
             <DialogTrigger asChild>
-              <div className={cn("flex gap-4 ")}>
+              <div className={cn("flex gap-4 px-4 ")}>
                 <Button
                   onClick={() => handleActive(0)}
                   className="flex-1 line-clamp-1"
@@ -131,14 +133,14 @@ const QuestionDetail: FC<Props> = ({ questions, size, comments, answers }) => {
           <DialogContent className="sm:max-w-[425px]">
             <DialogHeader>
               <DialogTitle>Bu Cevap için Emin Misin ?</DialogTitle>
-              <DialogDescription>Test Desc</DialogDescription>
+              {/* <DialogDescription>Test Desc</DialogDescription> */}
             </DialogHeader>
             <form action={action}>
-              <Button type="submit" disabled={isPending}>
-                Evet
+              <Button type="submit" variant="default" disabled={isPending}>
+                Onayla
               </Button>
-              <Button type="button" onClick={() => setOpen((prev) => !prev)}>
-                Hayır
+              <Button type="button" variant="ghost" onClick={() => setOpen((prev) => !prev)}>
+                Vazgeç
               </Button>
               <input
                 type="text"
@@ -155,12 +157,13 @@ const QuestionDetail: FC<Props> = ({ questions, size, comments, answers }) => {
                 className="hidden"
               />
             </form>
-            <DialogFooter>enes demirci</DialogFooter>
+            {/* <DialogFooter>enes demirci</DialogFooter> */}
           </DialogContent>
         </Dialog>
 
-        <Separator />
-        <div className="px-4 flex flex-col gap-4">
+        <Separator className="mt-4" />
+
+        <div className="px-4 flex flex-col gap-4 my-4">
           {comments?.map((x, i) => (
             <div key={i} className={cn("border rounded-md p-4 space-y-4")}>
               <div className="flex items-center justify-between">
@@ -170,7 +173,9 @@ const QuestionDetail: FC<Props> = ({ questions, size, comments, answers }) => {
             </div>
           ))}
         </div>
+
         <Separator />
+        
         <NewComment />
       </div>
     </ScrollArea>

@@ -21,15 +21,24 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { categories } from "@/constants";
 import { PlusCircleIcon } from "lucide-react";
-import { useActionState } from "react";
+import { useActionState, useEffect, useState } from "react";
 import { createQuestion } from "@/lib/actions";
+import { toast } from "sonner";
 
 export function NewQuestion() {
-    const [data, action, isPending] = useActionState(createQuestion, null)
+  const [data, action, isPending] = useActionState(createQuestion, null);
+  const [open, setOpen] = useState(false);
 
+  useEffect(() => {
+    console.log("[NEW_QUESTION_MODAL_RENDER]")
+    if(data?.status === "success") {
+      setOpen(false);
+      toast.success("Soru başarıyla oluşturuldu.");
+    }
+  }, [data]);
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button>
           <PlusCircleIcon className="mr-2 h-4 w-4" /> Soru Sor
@@ -71,10 +80,12 @@ export function NewQuestion() {
               </SelectContent>
             </Select>
           </div>
-  
-        <DialogFooter>
-          <Button type="submit" disabled={isPending}>Oluştur</Button>
-        </DialogFooter>
+
+          <DialogFooter>
+            <Button type="submit" disabled={isPending}>
+              {isPending ? "Oluşturuluyor..." : "Oluştur"}
+            </Button>
+          </DialogFooter>
         </form>
       </DialogContent>
     </Dialog>

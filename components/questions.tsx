@@ -30,7 +30,7 @@ const Questions: FC<Props> = ({ size, questions, answers }) => {
   });
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col ">
       <ScrollArea className="w-full h-screen pb-4 ">
         <div className="px-4 py-2 flex justify-end gap-5">
         <ModeToggle />
@@ -46,7 +46,7 @@ const Questions: FC<Props> = ({ size, questions, answers }) => {
               onClick={() => router.push(`/${category}/${x.id}`)}
               key={i}
               className={cn(
-                "border rounded-md p-4 space-y-4",
+                "border rounded-md p-4 space-y-4 cursor-pointer",
                 Number(activeQuestion) === x.id && "bg-muted"
               )}
             >

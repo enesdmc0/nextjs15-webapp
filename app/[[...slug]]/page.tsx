@@ -21,6 +21,7 @@ const Home: React.FC<Props> = async ({ params }) => {
   const [questions, comments, answers]: [Question[], Comment[], Answer[]] =
     await Promise.all([GET_QUESTIONS, GET_COMMENTS, GET_ANSWERS]);
 
+
   return (
     <main className="h-screen flex font-sans">
       <Navbar />

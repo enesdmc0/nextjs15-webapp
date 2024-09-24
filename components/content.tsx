@@ -1,5 +1,5 @@
 "use client";
-import React, { FC, useState } from "react";
+import React, { FC, Suspense, useState } from "react";
 import {
   ResizableHandle,
   ResizablePanel,
@@ -10,7 +10,7 @@ import QuestionDetail from "@/components/question-detail";
 import { Answer, Comment, Question } from "@prisma/client";
 
 interface Props {
-  questions: Question[] ;
+  questions: Question[];
   comments: Comment[];
   answers: Answer[];
 }
@@ -28,13 +28,24 @@ const Content: FC<Props> = ({ questions, comments, answers }) => {
       }}
     >
       <ResizablePanel minSize={40}>
-        <Questions size={sizes[0]} questions={questions ?? []} answers={answers} />
+        <Questions
+          size={sizes[0]}
+          questions={questions ?? []}
+          answers={answers}
+        />
       </ResizablePanel>
 
       <ResizableHandle withHandle />
 
       <ResizablePanel minSize={30}>
-        <QuestionDetail questions={questions ?? []} answers={answers} comments={comments} size={sizes[0]} />
+        <Suspense fallback={<p className="bg-red-400">Loading feed...</p>}>
+          <QuestionDetail
+            questions={questions ?? []}
+            answers={answers}
+            comments={comments}
+            size={sizes[0]}
+          />
+        </Suspense>
       </ResizablePanel>
     </ResizablePanelGroup>
   );
