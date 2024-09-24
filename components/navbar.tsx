@@ -6,22 +6,16 @@ import Image from "next/image";
 import React from "react";
 import { Separator } from "./ui/separator";
 import { useRouter, useParams } from "next/navigation";
-import { ModeToggle } from "@/components/mode-toggle";
-import { SignedIn, UserButton } from "@clerk/nextjs";
+import { UserButton } from "@clerk/nextjs";
 import { SignOutButton } from "@clerk/nextjs";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { HomeIcon, LogOutIcon, Music2Icon, SettingsIcon, User2Icon } from "lucide-react";
+import Link from "next/link";
 
 const Navbar = () => {
-  const router = useRouter();
-  const {slug} = useParams()
+  const { slug } = useParams();
 
-const category = slug ? slug[0] : "all";
-
-
-  const diger = {
-    anasayfa: "Anasayfa",
-    ayarlar: "Ayarlar",
-    profil: "Profil",
-  };
+  const category = slug ? slug[0] : "all";
 
   return (
     <div
@@ -36,73 +30,62 @@ const category = slug ? slug[0] : "all";
       <Separator />
 
       {/* categories */}
-      <div className="space-y-1 p-2 mt-10">
-        <h2 className=" px-4 text-lg font-semibold tracking-tight">
-          Kategoriler
-        </h2>
-        <Separator />
-        {Object.entries(categories).map(([key, value], i) => (
-          <Button
-            onClick={() => router.push(`/${key}`)}
-            key={i}
-            variant={category === key ? "secondary" : "ghost"}
-            className="w-full justify-start"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="mr-2 h-4 w-4"
-            >
-              <rect width="7" height="7" x="3" y="3" rx="1" />
-              <rect width="7" height="7" x="14" y="3" rx="1" />
-              <rect width="7" height="7" x="14" y="14" rx="1" />
-              <rect width="7" height="7" x="3" y="14" rx="1" />
-            </svg>
-            {value}
-          </Button>
-        ))}
-      </div>
+      <ScrollArea className="h-1/2">
+        <div className="space-y-1  mt-5">
+          <h2 className=" px-4 text-lg font-semibold tracking-tight">
+            Kategoriler
+          </h2>
+          <Separator />
+          <div className="p-2">
+            {Object.entries(categories).map(([key, value], i) => (
+              <Button
+                asChild
+                key={i}
+                variant={category === key ? "secondary" : "ghost"}
+                className="w-full justify-start"
+              >
+                <Link href={`/${key}`}>
+                  <Music2Icon className="mr-2 h-4 w-4" />
+                  {value}
+                </Link>
+              </Button>
+            ))}
+          </div>
+        </div>
+      </ScrollArea>
 
       {/* diğer */}
-      <div className="space-y-1 p-2 mt-10">
-      <h2 className=" px-4 text-lg font-semibold tracking-tight">
-          Diğer
-        </h2>
+      <div className="space-y-1 mt-5">
         <Separator />
-        {Object.entries(diger).map(([key, value], i) => (
-          <Button
-            // onClick={() => setActiveCategory(key)}
-            key={i}
-            // variant={activeCategory === key ? "secondary" : "ghost"}
-            className="w-full justify-start"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="mr-2 h-4 w-4"
-            >
-              <rect width="7" height="7" x="3" y="3" rx="1" />
-              <rect width="7" height="7" x="14" y="3" rx="1" />
-              <rect width="7" height="7" x="14" y="14" rx="1" />
-              <rect width="7" height="7" x="3" y="14" rx="1" />
-            </svg>
-            {value}
+        <div className="p-2">
+          <Button asChild variant="ghost" className="w-full justify-start">
+            <Link href="/">
+              <HomeIcon className="mr-2 h-4 w-4" />
+              Anasayfa
+            </Link>
           </Button>
-        ))}
+          <Button asChild variant="ghost" className="w-full justify-start">
+            <Link href="/ayarlar">
+              <SettingsIcon className="mr-2 h-4 w-4" />
+              Ayarlar
+            </Link>
+          </Button>
+          <Button asChild variant="ghost" className="w-full justify-start">
+            <Link href="/profil">
+              <User2Icon className="mr-2 h-4 w-4" />
+              Profil
+            </Link>
+          </Button>
+        </div>
       </div>
-      <div>
-      <SignOutButton/>
-      <ModeToggle/>
+      
+      <div className="mt-auto p-2 border-t">
+        <SignOutButton>
+          <Button className="w-full">
+            Çıkış Yap
+            <LogOutIcon className="m-2 h-4 w-4" />
+          </Button>
+        </SignOutButton>
       </div>
     </div>
   );

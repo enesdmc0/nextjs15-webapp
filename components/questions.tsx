@@ -7,6 +7,7 @@ import { Separator } from "./ui/separator";
 import { NewQuestion } from "./new-question";
 import { useParams, useRouter } from "next/navigation";
 import { Answer, Question } from "@prisma/client";
+import { ModeToggle } from "./mode-toggle";
 
 interface Props {
   size: number;
@@ -31,7 +32,8 @@ const Questions: FC<Props> = ({ size, questions, answers }) => {
   return (
     <div className="flex flex-col">
       <ScrollArea className="w-full h-screen pb-4 ">
-        <div className="px-4 py-2 flex justify-end">
+        <div className="px-4 py-2 flex justify-end gap-5">
+        <ModeToggle />
           <NewQuestion />
         </div>
 
