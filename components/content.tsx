@@ -1,5 +1,5 @@
 "use client";
-import React, { FC, useRef, useState } from "react";
+import React, { FC, useEffect, useRef, useState } from "react";
 import {
   ResizableHandle,
   ResizablePanel,
@@ -24,6 +24,8 @@ const Content: FC<Props> = ({ questions, comments, answers, totalAnswers }) => {
   const [sizes, setSizes] = useState<number[]>([]);
   const ref = useRef<ImperativePanelHandle>(null);
   const [isCollapsed, setIsCollapsed] = useState(false);
+
+
 
   const togglePanel = () => {
     const panel = ref.current;
@@ -54,9 +56,12 @@ const Content: FC<Props> = ({ questions, comments, answers, totalAnswers }) => {
       autoSaveId="persistence"
       onLayout={handleResize}
     >
-      
       <ResizablePanel collapsible minSize={20} ref={ref}>
-        <Questions questions={questions ?? []} answers={answers} togglePanel={togglePanel} />
+        <Questions
+          questions={questions ?? []}
+          answers={answers}
+          togglePanel={togglePanel}
+        />
       </ResizablePanel>
 
       <ResizableHandle withHandle />
@@ -68,7 +73,10 @@ const Content: FC<Props> = ({ questions, comments, answers, totalAnswers }) => {
           totalAnswers={totalAnswers}
           comments={comments}
         >
-          <Button className="mr-auto flex items-center gap-1" onClick={togglePanel}>
+          <Button
+            className="mr-auto flex items-center gap-1"
+            onClick={togglePanel}
+          >
             {!isCollapsed && <ArrowLeft className="size-4" />}
             {isCollapsed ? "Soruları Aç" : "Soruları Kapat"}
             {isCollapsed && <ArrowRight className="size-4" />}

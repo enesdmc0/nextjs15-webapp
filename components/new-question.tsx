@@ -31,7 +31,7 @@ export function NewQuestion() {
 
   useEffect(() => {
     if (!data) return;
-    console.log("[NEW_QUESTION_MODAL_RENDER]");
+    // console.log("[NEW_QUESTION_MODAL_RENDER]");
     if (data?.status === "success") {
       setOpen(false);
       toast.success("Soru başarıyla oluşturuldu.");

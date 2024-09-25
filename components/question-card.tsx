@@ -1,7 +1,7 @@
-import React, { FC } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { Button } from "./ui/button";
 import { cn } from "@/lib/utils";
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 import { CircleCheck } from "lucide-react";
 import Link from "next/link";
 
@@ -22,15 +22,32 @@ const QuestionCard: FC<Props> = ({
   option2,
   answer,
   createdAt,
-  togglePanel
+  togglePanel,
 }) => {
-  const router = useRouter();
   const { slug } = useParams();
   const category = slug ? slug[0] : "all";
   const activeQuestion = slug ? slug[1] : null;
 
   const date = new Date(createdAt);
+  const [isMobile, setIsMobile] = useState(false);
 
+  useEffect(() => {
+    const checkIsMobile = () => {
+      if (typeof window !== "undefined") {
+        setIsMobile(window.innerWidth < 768);
+      }
+    };
+
+    if (typeof window !== "undefined") {
+      checkIsMobile();
+
+      window.addEventListener("resize", checkIsMobile);
+
+      return () => {
+        window.removeEventListener("resize", checkIsMobile);
+      };
+    }
+  }, []);
   const formattedDate = new Intl.DateTimeFormat("tr-TR", {
     // weekday: 'long',
     // year: 'numeric',
@@ -41,9 +58,16 @@ const QuestionCard: FC<Props> = ({
     // second: 'numeric'
   }).format(date);
 
-  return (
-    <Link href={`/${category}/${id}`}  onClick={togglePanel}
+  const handleClick = () => {
+    if (isMobile) {
+      togglePanel();
+    }
+  };
 
+  return (
+    <Link
+      href={`/${category}/${id}`}
+      onClick={handleClick}
       className={cn(
         "border rounded-md p-4 space-y-4 cursor-pointer",
         Number(activeQuestion) === id && "bg-muted"
@@ -53,7 +77,7 @@ const QuestionCard: FC<Props> = ({
         <p className="text-sm">{text}</p>
         <p className="text-xs">{formattedDate}</p>
       </div>
-      <div className={cn("flex gap-4 ml-auto w-full",)}>
+      <div className={cn("flex gap-4 ml-auto w-full")}>
         <Button className={cn("flex-1 flex items-center justify-center")}>
           <p className="flex-1">{option1}</p>
           <CircleCheck

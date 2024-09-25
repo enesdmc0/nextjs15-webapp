@@ -50,7 +50,7 @@ const QuestionDetail: FC<Props> = ({
   comments,
   answers,
   totalAnswers,
-  children
+  children,
 }) => {
   const [data, action, isPending] = useActionState(createAnswer, null);
   const [activeAnswer, setActiveAnswer] = useState<0 | 1>(0);
@@ -60,7 +60,7 @@ const QuestionDetail: FC<Props> = ({
 
   useEffect(() => {
     if (!data) return;
-    console.log("[NEW_ANSWER_MODAL_RENDER]");
+    // console.log("[NEW_ANSWER_MODAL_RENDER]");
     if (data?.status === "success") {
       setOpen(false);
       toast.success("Cevabınız başarıyla kaydedildi.");
@@ -116,7 +116,7 @@ const QuestionDetail: FC<Props> = ({
       <ScrollArea className="h-screen">
         <div className="flex flex-col h-screen">
           <div className="px-4 py-2 flex justify-end">
-          {children}
+            {children}
             <Tooltip>
               <TooltipTrigger asChild>
                 <Button variant="default" size="icon">
@@ -126,7 +126,6 @@ const QuestionDetail: FC<Props> = ({
               </TooltipTrigger>
               <TooltipContent>Sil</TooltipContent>
             </Tooltip>
-          
           </div>
 
           <Separator />
