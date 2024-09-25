@@ -48,7 +48,7 @@ export function NewQuestion() {
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>Yeni Soru Oluştur</DialogTitle>
-          {/* <DialogDescription>Test Desc</DialogDescription> */}
+          <DialogDescription></DialogDescription>
         </DialogHeader>
         <form action={action} className="grid gap-4 py-4">
           <div>
@@ -72,7 +72,7 @@ export function NewQuestion() {
               <SelectContent>
                 <SelectGroup>
                   {/* <SelectLabel>Fruits</SelectLabel> */}
-                  {Object.entries(categories).map(([key, value]) => (
+                  {Object.entries(categories).slice(1,).map(([key, value]) => (
                     <SelectItem key={key} value={key}>
                       {value}
                     </SelectItem>

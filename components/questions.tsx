@@ -6,14 +6,20 @@ import { NewQuestion } from "./new-question";
 import { Answer, Question } from "@prisma/client";
 import { ModeToggle } from "./mode-toggle";
 import QuestionCard from "./question-card";
+import { Button } from "./ui/button";
+import { HamIcon } from "lucide-react";
+import { HamburgerMenuIcon } from "@radix-ui/react-icons";
+import { useAtom } from "jotai";
+import { navbarOpenAtom } from "@/lib/atom";
 
 interface Props {
-  size: number;
   questions: Question[];
   answers: Answer[];
+  togglePanel: () => void;
 }
 
-const Questions: FC<Props> = ({ size, questions, answers }) => {
+const Questions: FC<Props> = ({ questions, answers, togglePanel }) => {
+  const [open, setOpen] = useAtom(navbarOpenAtom)
   const customQuestions = questions.map((x) => {
     const answer = answers.find((y) => y.questionId === x.id);
     return {
@@ -26,6 +32,9 @@ const Questions: FC<Props> = ({ size, questions, answers }) => {
     <div className="flex flex-col ">
       <ScrollArea className="w-full h-screen pb-4 ">
         <div className="px-4 py-2 flex justify-end gap-5">
+          <Button onClick={() => setOpen(prev => !prev)} variant="outline" size="icon" className="mr-auto ">
+            <HamburgerMenuIcon className="h-4 w-4" />
+          </Button>
           <ModeToggle />
           <NewQuestion />
         </div>
@@ -40,7 +49,7 @@ const Questions: FC<Props> = ({ size, questions, answers }) => {
         ) : (
           <div className="flex flex-col gap-4 px-4 mt-4">
             {customQuestions.map((x, i) => (
-              <QuestionCard size={size} {...x} key={i} />
+              <QuestionCard {...x} key={i} togglePanel={togglePanel} />
             ))}
           </div>
         )}

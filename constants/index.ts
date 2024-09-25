@@ -3,7 +3,7 @@ interface CategoriesType {
 }
 
 export const categories: CategoriesType = {
-    "my": "Benim Yazılarım",
+    "my": "Benim Sorularım",
     "spor": "Spor",
     "siyaset": "Siyaset",
     "ekonomi": "Ekonomi",
@@ -11,7 +11,6 @@ export const categories: CategoriesType = {
     "bilim": "Bilim",
     "teknoloji": "Teknoloji",
     "tarih": "Tarih",
-    "edebiyat": "Edebiyat",
     "müzik": "Müzik",
     "sinema": "Sinema",
 }

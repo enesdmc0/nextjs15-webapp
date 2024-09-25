@@ -3,25 +3,26 @@ import { Button } from "./ui/button";
 import { cn } from "@/lib/utils";
 import { useParams, useRouter } from "next/navigation";
 import { CircleCheck } from "lucide-react";
+import Link from "next/link";
 
 interface Props {
-  size: number;
   id: number;
   text: string;
   option1: string;
   option2: string;
   answer: number | undefined;
   createdAt: Date;
+  togglePanel: () => void;
 }
 
 const QuestionCard: FC<Props> = ({
-  size,
   id,
   text,
   option1,
   option2,
   answer,
   createdAt,
+  togglePanel
 }) => {
   const router = useRouter();
   const { slug } = useParams();
@@ -41,8 +42,8 @@ const QuestionCard: FC<Props> = ({
   }).format(date);
 
   return (
-    <div
-      onClick={() => router.push(`/${category}/${id}`)}
+    <Link href={`/${category}/${id}`}  onClick={togglePanel}
+
       className={cn(
         "border rounded-md p-4 space-y-4 cursor-pointer",
         Number(activeQuestion) === id && "bg-muted"
@@ -52,7 +53,7 @@ const QuestionCard: FC<Props> = ({
         <p className="text-sm">{text}</p>
         <p className="text-xs">{formattedDate}</p>
       </div>
-      <div className={cn("flex gap-4 ml-auto", size < 50 ? "w-full" : "w-1/2")}>
+      <div className={cn("flex gap-4 ml-auto w-full",)}>
         <Button className={cn("flex-1 flex items-center justify-center")}>
           <p className="flex-1">{option1}</p>
           <CircleCheck
@@ -72,7 +73,7 @@ const QuestionCard: FC<Props> = ({
           />
         </Button>
       </div>
-    </div>
+    </Link>
   );
 };
 
