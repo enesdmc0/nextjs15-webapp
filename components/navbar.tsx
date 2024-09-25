@@ -24,8 +24,8 @@ const Navbar = () => {
       )}
     >
       {/* logo */}
-      <div className="flex items-center justify-center h-[52px]  ">
-        <Image alt="" src="/logo.svg" width={40} height={40} />
+      <div className="flex items-center justify-center h-[52px] font-mono tracking-widest font-semibold text-lg ">
+        enesdmc
       </div>
       <Separator />
 

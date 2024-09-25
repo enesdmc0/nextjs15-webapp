@@ -14,7 +14,6 @@ interface Props {
 }
 
 const Questions: FC<Props> = ({ size, questions, answers }) => {
-
   const customQuestions = questions.map((x) => {
     const answer = answers.find((y) => y.questionId === x.id);
     return {
@@ -34,11 +33,17 @@ const Questions: FC<Props> = ({ size, questions, answers }) => {
         <Separator />
 
         {/* questions */}
-        <div className="flex flex-col gap-4 px-4 mt-4">
-          {customQuestions.map((x, i) => (
-            <QuestionCard size={size} {...x} key={i} />
-          ))}
-        </div>
+        {questions.length === 0 ? (
+          <div className="flex items-center justify-center h-40 underline">
+            Aradığınız Kategoriye Ait Soru Bulunamadı.
+          </div>
+        ) : (
+          <div className="flex flex-col gap-4 px-4 mt-4">
+            {customQuestions.map((x, i) => (
+              <QuestionCard size={size} {...x} key={i} />
+            ))}
+          </div>
+        )}
       </ScrollArea>
     </div>
   );

@@ -39,13 +39,18 @@ interface Props {
   size: number;
 }
 
-const QuestionDetail: FC<Props> = ({ questions, size, comments, answers, totalAnswers }) => {
+const QuestionDetail: FC<Props> = ({
+  questions,
+  size,
+  comments,
+  answers,
+  totalAnswers,
+}) => {
   const [data, action, isPending] = useActionState(createAnswer, null);
-  const [error, setError] = useState<boolean>(false);
   const [activeAnswer, setActiveAnswer] = useState<0 | 1>(0);
+  const [open, setOpen] = useState(false);
   const { slug } = useParams();
   const activeQuestion = slug ? slug[1] : null;
-  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     if (!data) return;
@@ -56,11 +61,10 @@ const QuestionDetail: FC<Props> = ({ questions, size, comments, answers, totalAn
     }
   }, [data]);
 
-
   if (!activeQuestion) {
     return (
-      <div className="w-full h-screen bg-white border border-gray-200">
-        Soru Bulunamadı.
+      <div className=" flex items-center justify-center h-40 underline">
+        Cevaplamak İstediğiniz Soruyu Seçiniz.
       </div>
     );
   }
@@ -73,9 +77,10 @@ const QuestionDetail: FC<Props> = ({ questions, size, comments, answers, totalAn
   });
 
   const question = customQuestions.find((x) => x.id === Number(activeQuestion));
+  
   if (!question) {
     return (
-      <div className="w-full h-screen border border-gray-200">
+      <div className="w-full h-40 flex items-center justify-center underline">
         Soru Bulunamadı.
       </div>
     );
@@ -219,13 +224,9 @@ const QuestionDetail: FC<Props> = ({ questions, size, comments, answers, totalAn
             variant="outline"
             className="col-span-1 text-xs flex justify-between"
           >
-            <p>
-              {totalAnswers.option1Length} Oy
-            </p>
+            <p>{totalAnswers.option1Length} Oy</p>
             <Separator orientation="vertical" />
-            <p>
-            {totalAnswers.option2Length} Oy
-            </p>
+            <p>{totalAnswers.option2Length} Oy</p>
           </Button>
 
           <Button
