@@ -15,3 +15,9 @@ export interface Comment {
     userId: 1,
     questionId: 2
 }
+
+export interface TotalAnswers {
+    length: number;
+    option1Length: number;
+    option2Length: number;
+  }

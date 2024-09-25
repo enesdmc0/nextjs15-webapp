@@ -8,14 +8,21 @@ import {
 import Questions from "@/components/questions";
 import QuestionDetail from "@/components/question-detail";
 import { Answer, Comment, Question } from "@prisma/client";
+import { TotalAnswers } from "@/types";
 
 interface Props {
   questions: Question[];
   comments: Comment[];
   answers: Answer[];
+  totalAnswers: TotalAnswers
 }
 
-const Content: FC<Props> = ({ questions, comments, answers }) => {
+const Content: FC<Props> = ({
+  questions,
+  comments,
+  answers,
+  totalAnswers,
+}) => {
   const [sizes, setSizes] = useState<number[]>([]);
 
   return (
@@ -42,6 +49,7 @@ const Content: FC<Props> = ({ questions, comments, answers }) => {
           <QuestionDetail
             questions={questions ?? []}
             answers={answers}
+            totalAnswers={totalAnswers}
             comments={comments}
             size={sizes[0]}
           />

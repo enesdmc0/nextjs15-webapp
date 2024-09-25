@@ -13,7 +13,7 @@ export const getQuestions = async (category: string): Promise<Question[]> => {
         });
 
     } catch (error: any) {
-        console.log(error, "[GET_QUESTIONS_ERROR]");
+        // console.log(error, "[GET_QUESTIONS_ERROR]");
         return []
 
     }
@@ -21,9 +21,9 @@ export const getQuestions = async (category: string): Promise<Question[]> => {
 
 export const getComments = async (questionId: number): Promise<Comment[]> => {
     try {
-        
+
         if (!questionId) {
-            console.log("Question ID not found", "[GET_COMMENTS_ERROR]");
+            // console.log("Question ID not found", "[GET_COMMENTS_ERROR]");
             return [];
         }
 
@@ -35,7 +35,7 @@ export const getComments = async (questionId: number): Promise<Comment[]> => {
         return comments;
 
     } catch (error: any) {
-        console.log(error, "[GET_COMMENTS_ERROR]");
+        // console.log(error, "[GET_COMMENTS_ERROR]");
         return []
     }
 }
@@ -44,7 +44,7 @@ export const getAnswers = async (): Promise<Answer[]> => {
     try {
         const current = await currentUser();
         if (!current) {
-            console.log("Current User not found", "[GET_ANSWERS_ERROR]");
+            // console.log("Current User not found", "[GET_ANSWERS_ERROR]");
             return [];
         }
 
@@ -55,7 +55,7 @@ export const getAnswers = async (): Promise<Answer[]> => {
         });
 
         if (!user || !user.id) {
-            console.log("Supabase User not found", "[GET_ANSWERS_ERROR]");
+            // console.log("Supabase User not found", "[GET_ANSWERS_ERROR]");
             return [];
         }
 
@@ -65,7 +65,7 @@ export const getAnswers = async (): Promise<Answer[]> => {
             }
         });
     } catch (error: any) {
-        console.log(error, "[GET_ANSWERS_ERROR]");
+        // console.log(error, "[GET_ANSWERS_ERROR]");
         return [];
     }
 }
@@ -110,7 +110,7 @@ export const createQuestion = async (previousState: unknown, formData: FormData)
         return { message: "Question created", status: "success", question: createdQuestion };
 
     } catch (error: any) {
-        console.log(error, "[CREATE_QUESTION_ERROR]");
+        // console.log(error, "[CREATE_QUESTION_ERROR]");
         return { status: "error", message: error.message };
     } finally {
         revalidatePath("/");
@@ -155,7 +155,7 @@ export const createComment = async (previousState: unknown, formData: FormData) 
         return { message: "Question created", status: "success", question: createdQuestion };
 
     } catch (error: any) {
-        console.log(error, "[CREATE_QUESTION_ERROR]");
+        // console.log(error, "[CREATE_QUESTION_ERROR]");
         return { status: "error", message: error.message };
     } finally {
         revalidatePath("/");
@@ -206,7 +206,7 @@ export const createAnswer = async (previousState: unknown, formData: FormData) =
         return { message: "Answer created", status: "success", answer: createdAnswer };
 
     } catch (error: any) {
-        console.log(error, "[CREATE_ANSWER_ERROR]");
+        // console.log(error, "[CREATE_ANSWER_ERROR]");
         return { status: "error", message: error.message };
     } finally {
         revalidatePath("/");
@@ -222,5 +222,22 @@ export const checkUserQuestionAnswerUnique = async (userId: number, questionId: 
     });
 
     return userAnswer;
+}
+
+export const getTotalAnswerForQuestion = async (questionId: number) => {
+
+    try {
+        return await prisma.answer.findMany({
+            where: {
+                questionId
+            }
+        });
+
+    } catch (error: any) {
+        // console.log(error, "[GET_QUESTIONS_ERROR]");
+        return []
+
+    }
+
 }
 

@@ -9,7 +9,7 @@ const NewComment = () => {
   const params = useParams();
   const activeQuestion = Number(params.slug[1]) ?? null;
   return (
-    <div className="px-4 mt-auto">
+    <div className="px-4 pb-4 mt-auto">
       <form action={action} className="grid gap-4">
         <Textarea name="comment" placeholder="Yorum Yap..." />
         <input

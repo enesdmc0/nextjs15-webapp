@@ -30,8 +30,9 @@ export function NewQuestion() {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    console.log("[NEW_QUESTION_MODAL_RENDER]")
-    if(data?.status === "success") {
+    if (!data) return;
+    console.log("[NEW_QUESTION_MODAL_RENDER]");
+    if (data?.status === "success") {
       setOpen(false);
       toast.success("Soru başarıyla oluşturuldu.");
     }
@@ -47,7 +48,7 @@ export function NewQuestion() {
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>Yeni Soru Oluştur</DialogTitle>
-          <DialogDescription>Test Desc</DialogDescription>
+          {/* <DialogDescription>Test Desc</DialogDescription> */}
         </DialogHeader>
         <form action={action} className="grid gap-4 py-4">
           <div>
