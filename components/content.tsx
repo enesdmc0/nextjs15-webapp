@@ -23,16 +23,12 @@ const Content: FC<Props> = ({ questions, comments, answers, totalAnswers }) => {
   const { slug } = useParams();
   const activeQuestion = slug ? slug[1] : null;
   const windowWidth = useWindowWidth();
-
-  useEffect(() => {
-    if (windowWidth < 768) {
-      setAOpen(true);
-      setBOpen(false);
-    }
-  }, []);
-
   const [aOpen, setAOpen] = useAtom(aAtom);
   const [bOpen, setBOpen] = useAtom(bAtom);
+
+  
+
+
 
   if (!mounted) return null;
 
@@ -60,7 +56,7 @@ const Content: FC<Props> = ({ questions, comments, answers, totalAnswers }) => {
 
       <div
         className={cn(
-          "col-span-1 overflow-y-auto h-full border-l",
+          "col-span-1 overflow-y-auto h-full border-l", windowWidth < 768 && aOpen ? "hidden" : 
           !activeQuestion ? "hidden" : bOpen ? "" : "hidden"
         )}
       >
