@@ -8,7 +8,7 @@ import { useParams } from "next/navigation";
 import { useAtom } from "jotai";
 import { aAtom, bAtom } from "@/lib/atom";
 import { cn } from "@/lib/utils";
-import useWindowWidth from "@/lib/useWindow";
+import useWindowWidth from "@/lib/use-window";
 import useMounted from "@/lib/use-mounted";
 
 interface Props {
@@ -23,6 +23,13 @@ const Content: FC<Props> = ({ questions, comments, answers, totalAnswers }) => {
   const { slug } = useParams();
   const activeQuestion = slug ? slug[1] : null;
   const windowWidth = useWindowWidth();
+
+  useEffect(() => {
+    if (windowWidth < 768) {
+      setAOpen(true);
+      setBOpen(false);
+    }
+  }, []);
 
   const [aOpen, setAOpen] = useAtom(aAtom);
   const [bOpen, setBOpen] = useAtom(bAtom);
@@ -53,7 +60,7 @@ const Content: FC<Props> = ({ questions, comments, answers, totalAnswers }) => {
 
       <div
         className={cn(
-          "col-span-1 overflow-y-auto h-full",
+          "col-span-1 overflow-y-auto h-full border-l",
           !activeQuestion ? "hidden" : bOpen ? "" : "hidden"
         )}
       >

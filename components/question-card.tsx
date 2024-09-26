@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from "react";
+import React, { FC } from "react";
 import { Button } from "./ui/button";
 import { cn } from "@/lib/utils";
 import { useParams } from "next/navigation";
@@ -6,7 +6,7 @@ import { CircleCheck } from "lucide-react";
 import Link from "next/link";
 import { useAtom } from "jotai";
 import { aAtom, bAtom } from "@/lib/atom";
-import useWindowWidth from "@/lib/useWindow";
+import useWindowWidth from "@/lib/use-window";
 
 interface Props {
   id: number;

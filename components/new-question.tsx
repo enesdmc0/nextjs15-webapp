@@ -42,7 +42,7 @@ export function NewQuestion() {
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button className="flex items-center gap-2">
-          <PlusCircleIcon className=" h-4 w-4" /> 
+          <PlusCircleIcon className=" h-4 w-4" />
           <p className="hidden md:block">Soru Sor</p>
         </Button>
       </DialogTrigger>
@@ -73,11 +73,13 @@ export function NewQuestion() {
               <SelectContent>
                 <SelectGroup>
                   {/* <SelectLabel>Fruits</SelectLabel> */}
-                  {Object.entries(categories).slice(1,).map(([key, value]) => (
-                    <SelectItem key={key} value={key}>
-                      {value}
-                    </SelectItem>
-                  ))}
+                  {Object.entries(categories)
+                    .slice(1)
+                    .map(([key, value]) => (
+                      <SelectItem key={key} value={key}>
+                        {value}
+                      </SelectItem>
+                    ))}
                 </SelectGroup>
               </SelectContent>
             </Select>

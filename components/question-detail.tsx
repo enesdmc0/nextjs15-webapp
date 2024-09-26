@@ -1,20 +1,17 @@
 "use client";
 import React, { FC, useActionState, useEffect, useState } from "react";
-
 import {
   Calendar,
+  ChevronLeft,
+  ChevronRight,
   CircleCheck,
   TableOfContents,
-  Trash2,
   Vote,
 } from "lucide-react";
-
 import { ScrollArea } from "@/components/ui/scroll-area";
-
 import { cn } from "@/lib/utils";
 import { Separator } from "./ui/separator";
 import NewComment from "./new-comment";
-
 import { useParams } from "next/navigation";
 import { Answer, Comment, Question } from "@prisma/client";
 import { Button } from "@/components/ui/button";
@@ -35,6 +32,7 @@ import { TotalAnswers } from "@/types";
 import { useAtom } from "jotai";
 import { aAtom, bAtom, navbarOpenAtom } from "@/lib/atom";
 import { HamburgerMenuIcon } from "@radix-ui/react-icons";
+import useWindowWidth from "@/lib/use-window";
 interface Props {
   questions: Question[];
   comments: Comment[];
@@ -56,6 +54,8 @@ const QuestionDetail: FC<Props> = ({
   const activeQuestion = slug ? slug[1] : null;
   const [aOpen, setAOpen] = useAtom(aAtom);
   const [bOpen, setBOpen] = useAtom(bAtom);
+  const windowWidth = useWindowWidth();
+  
   useEffect(() => {
     if (!data) return;
     // console.log("[NEW_ANSWER_MODAL_RENDER]");
@@ -108,14 +108,29 @@ const QuestionDetail: FC<Props> = ({
     setActiveAnswer(index);
     setOpen((prev) => !prev);
   };
+  
+  const handleA = () => {
+    if (windowWidth < 768) {
+      if(!activeQuestion) return;
+      if (setBOpen) {
+        setBOpen(false);
+        setAOpen(true);
+      } else {
+        setAOpen((prev) => !prev);
+      }
+    } else {
+      if (!bOpen) return;
+      setAOpen((prev) => !prev);
+    }
+  };
+
+
+
 
   return (
     <ScrollArea className="h-screen">
       <div className="flex flex-col h-screen">
-        <div className="px-4 py-2 flex justify-end">
-          <Button variant="default" size="icon">
-            <Trash2 className="h-4 w-4" />
-          </Button>
+        <div className="px-4 py-2 flex gap-4 justify-end">
           <Button
             onClick={() => setNavbar((prev) => !prev)}
             variant="outline"
@@ -124,6 +139,11 @@ const QuestionDetail: FC<Props> = ({
           >
             <HamburgerMenuIcon className="h-4 w-4" />
           </Button>
+        <Button onClick={handleA} variant="outline" size="icon">
+          <ChevronLeft className={cn("size-5", aOpen ? "" : "hidden")} />
+          <ChevronRight className={cn("size-5", aOpen ? "hidden" : "")} />
+        </Button>
+
         </div>
 
         <Separator />

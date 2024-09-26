@@ -18,52 +18,20 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { useAtom } from "jotai";
-import { aAtom, bAtom, navbarOpenAtom } from "@/lib/atom";
-import useWindowWidth from "@/lib/useWindow";
+import { navbarOpenAtom } from "@/lib/atom";
+import { ModeToggle } from "./mode-toggle";
 
 const Navbar = () => {
   const { slug } = useParams();
   const [open, setOpen] = useAtom(navbarOpenAtom);
-  const [aOpen, setAOpen] = useAtom(aAtom);
-  const [bOpen, setBOpen] = useAtom(bAtom);
-  const windowWidth = useWindowWidth();
-  const activeQuestion = slug ? slug[1] : null;
+
   const category = slug ? slug[0] : "all";
-
-  const handleA = () => {
-    if (windowWidth < 768) {
-      if (setBOpen) {
-        setBOpen(false);
-        setAOpen(true);
-      } else {
-        setAOpen((prev) => !prev);
-      }
-    } else {
-      if (!bOpen) return;
-      setAOpen((prev) => !prev);
-    }
-  };
-
-
-  const handleB = () => {
-    if (windowWidth < 768) {
-      if (setAOpen) {
-        setAOpen(false);
-        setBOpen(true);
-      } else {
-        setBOpen((prev) => !prev);
-      }
-    } else {
-      if (!aOpen) return;
-      setBOpen((prev) => !prev);
-    }
-  };
 
   return (
     <div
       className={cn(
         " transition-all duration-400 h-screen sticky left-0 top-0 flex flex-col group border-r ",
-        open ? "w-60" : " hidden"
+        open ? "w-60" : "hidden"
       )}
     >
       {/* logo */}
@@ -128,10 +96,7 @@ const Navbar = () => {
           </Button>
         </div>
       </div>
-      <div>
-        <Button onClick={handleA}>a</Button>
-        <Button onClick={handleB}>b</Button>
-      </div>
+      <ModeToggle />
       <div className="mt-auto p-2 border-t">
         <SignOutButton>
           <Button className="w-full">
