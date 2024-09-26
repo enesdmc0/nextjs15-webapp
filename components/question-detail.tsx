@@ -1,13 +1,5 @@
-"use client";
 import React, { FC, useActionState, useEffect, useState } from "react";
-import {
-  Calendar,
-  ChevronLeft,
-  ChevronRight,
-  CircleCheck,
-  TableOfContents,
-  Vote,
-} from "lucide-react";
+import { ChevronLeft, ChevronRight, CircleCheck } from "lucide-react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
 import { Separator } from "./ui/separator";
@@ -55,7 +47,7 @@ const QuestionDetail: FC<Props> = ({
   const [aOpen, setAOpen] = useAtom(aAtom);
   const [bOpen, setBOpen] = useAtom(bAtom);
   const windowWidth = useWindowWidth();
-  
+
   useEffect(() => {
     if (!data) return;
     // console.log("[NEW_ANSWER_MODAL_RENDER]");
@@ -108,10 +100,10 @@ const QuestionDetail: FC<Props> = ({
     setActiveAnswer(index);
     setOpen((prev) => !prev);
   };
-  
+
   const handleA = () => {
     if (windowWidth < 768) {
-      if(!activeQuestion) return;
+      if (!activeQuestion) return;
       if (setBOpen) {
         setBOpen(false);
         setAOpen(true);
@@ -124,9 +116,6 @@ const QuestionDetail: FC<Props> = ({
     }
   };
 
-
-
-
   return (
     <ScrollArea className="h-screen">
       <div className="flex flex-col h-screen">
@@ -135,15 +124,14 @@ const QuestionDetail: FC<Props> = ({
             onClick={() => setNavbar((prev) => !prev)}
             variant="outline"
             size="icon"
-            className={cn("mr-auto ", aOpen && "hidden")}
+            className={cn("mr-auto md:hidden ", aOpen && "hidden")}
           >
             <HamburgerMenuIcon className="h-4 w-4" />
           </Button>
-        <Button onClick={handleA} variant="outline" size="icon">
-          <ChevronLeft className={cn("size-5", aOpen ? "" : "hidden")} />
-          <ChevronRight className={cn("size-5", aOpen ? "hidden" : "")} />
-        </Button>
-
+          <Button onClick={handleA} variant="outline" size="icon">
+            <ChevronLeft className={cn("size-5", aOpen ? "" : "hidden")} />
+            <ChevronRight className={cn("size-5", aOpen ? "hidden" : "")} />
+          </Button>
         </div>
 
         <Separator />
@@ -242,10 +230,7 @@ const QuestionDetail: FC<Props> = ({
             variant="outline"
             className="flex items-center justify-between"
           >
-            <div className="flex items-center gap-1">
-              <Vote className="h-4 w-4" />
-              <p className="hidden md:block">Toplam Oy:</p>
-            </div>
+            <p className="underline">Toplam Oy:</p>
             <p>{totalAnswers?.length}</p>
           </Button>
           <Button
@@ -261,24 +246,14 @@ const QuestionDetail: FC<Props> = ({
             variant="outline"
             className="flex items-center justify-between"
           >
-            <div className="flex items-center gap-1">
-              <Calendar className="h-4 w-4" />
-
-              <p className="hidden md:block">Tarih:</p>
-            </div>
-
+            <p className="underline">Tarih:</p>
             <p>{formattedDate}</p>
           </Button>
           <Button
             variant="outline"
             className="flex items-center justify-between"
           >
-            <div className="flex items-center gap-1">
-              <TableOfContents className="h-4 w-4" />
-
-              <p className="hidden md:block">Categori</p>
-            </div>
-
+            <p className="underline">Categori</p>
             <p className="capitalize">{category}</p>
           </Button>
         </div>
@@ -286,14 +261,20 @@ const QuestionDetail: FC<Props> = ({
         <Separator />
         <div className="p-4 flex items-center justify-between">
           <h2 className="underline">Yorumlar</h2>
+
           <Button size="sm" variant="outline">
             {comments?.length}
           </Button>
         </div>
+
         <div className="px-4 flex flex-col flex-1 gap-4 mb-4">
-          {comments?.map((x, i) => (
-            <CommentCard key={i} {...x} />
-          ))}
+          {comments.length > 0 ? (
+            comments?.map((x, i) => <CommentCard key={i} {...x} />)
+          ) : (
+            <div className="flex items-center justify-center h-40 underline">
+              Henüz Yorum Yapılmamış.
+            </div>
+          )}
         </div>
 
         <Separator className="mb-4" />

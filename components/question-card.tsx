@@ -72,7 +72,7 @@ const QuestionCard: FC<Props> = ({
         <p className="text-xs">{formattedDate}</p>
       </div>
       <div className={cn("grid grid-cols-2 gap-4 ml-auto w-full")}>
-        <Button className={cn("flex-1 flex items-center justify-center")}>
+        <Button disabled={answer === 0} className={cn("flex-1 flex items-center justify-center")}>
           <p className="flex-1 truncate">{option1}</p>
           <CircleCheck
             className={cn(
@@ -81,7 +81,7 @@ const QuestionCard: FC<Props> = ({
             )}
           />
         </Button>
-        <Button className={cn("flex-1 flex items-center justify-center")}>
+        <Button disabled={answer === 0} className={cn("flex-1 flex items-center justify-center")}>
           <p className="flex-1 truncate">{option2}</p>
           <CircleCheck
             className={cn(

@@ -11,6 +11,6 @@ export const activeCategoryAtom = atomWithStorage<string | null>(
   null
 );
 
-export const navbarOpenAtom = atom<boolean>(false);
+export const navbarOpenAtom = atom<boolean>(true);
 export const aAtom = atom<boolean>(true);
 export const bAtom = atom<boolean>(true);

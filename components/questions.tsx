@@ -1,4 +1,3 @@
-"use client";
 import React, { FC } from "react";
 import { Separator } from "./ui/separator";
 import { NewQuestion } from "./new-question";
@@ -60,14 +59,14 @@ const Questions: FC<Props> = ({ questions, answers }) => {
             onClick={() => setOpen((prev) => !prev)}
             variant="outline"
             size="icon"
-            className="mr-auto "
+            className="mr-auto md:hidden"
           >
             <HamburgerMenuIcon className="h-4 w-4" />
           </Button>
 
           <NewQuestion />
 
-          <Button onClick={handleB} variant="outline" size="icon">
+          <Button onClick={handleB} disabled={!activeQuestion}  variant="outline" size="icon">
             <ChevronLeft className={cn("size-5", bOpen ? "hidden" : "")} />
             <ChevronRight className={cn("size-5", bOpen ? "" : "hidden")} />
           </Button>

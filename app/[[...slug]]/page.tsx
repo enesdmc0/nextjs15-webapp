@@ -17,7 +17,7 @@ interface Props {
 }
 
 const Home: React.FC<Props> = async ({ params }) => {
-  const category = params?.slug?.[0] ?? "my";
+  const category = params?.slug?.[0] ?? "spor";
   const activeQuestion = Number(params.slug?.[1]) ?? null;
 
   const GET_QUESTIONS: Promise<Question[]> = getQuestions(category);

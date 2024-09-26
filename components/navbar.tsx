@@ -7,15 +7,7 @@ import { Separator } from "./ui/separator";
 import { useParams } from "next/navigation";
 import { SignOutButton } from "@clerk/nextjs";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import {
-  HomeIcon,
-  LogOutIcon,
-  Music2Icon,
-  SettingsIcon,
-  TableOfContents,
-  TentTree,
-  User2Icon,
-} from "lucide-react";
+import { LogOutIcon } from "lucide-react";
 import Link from "next/link";
 import { useAtom } from "jotai";
 import { navbarOpenAtom } from "@/lib/atom";
@@ -31,12 +23,11 @@ const Navbar = () => {
     <div
       className={cn(
         " transition-all duration-400 h-screen sticky left-0 top-0 flex flex-col group border-r ",
-        open ? "w-60" : "hidden"
+        open ? "w-52" : "hidden"
       )}
     >
       {/* logo */}
       <div className="flex items-center justify-center h-[52px] font-mono tracking-widest font-semibold text-lg ">
-        <TentTree className={cn("", open ? "hidden" : "")} />
         <p className={cn("", open ? "" : "hidden")}>enesdmc</p>
       </div>
       <Separator />
@@ -50,7 +41,6 @@ const Navbar = () => {
               open ? "justify-start" : "justify-center"
             )}
           >
-            <TableOfContents className="size-5" />
             <p className={cn("", open ? "" : "hidden")}>Kategoriler</p>
           </h2>
           <Separator />
@@ -63,7 +53,6 @@ const Navbar = () => {
                 className="w-full justify-start"
               >
                 <Link href={`/${key}`} className="space-x-2">
-                  <Music2Icon className="h-4 w-4" />
                   <p className={cn("", open ? "" : "hidden")}>{value}</p>
                 </Link>
               </Button>
@@ -77,27 +66,16 @@ const Navbar = () => {
         <Separator />
         <div className="p-2">
           <Button asChild variant="ghost" className="w-full justify-start">
-            <Link href="/" className="space-x-2">
-              <HomeIcon className=" h-4 w-4" />
-              <p className={cn("", open ? "" : "hidden")}>Anasayfa</p>
-            </Link>
+            <Link href="/">Ayarlar</Link>
           </Button>
           <Button asChild variant="ghost" className="w-full justify-start">
-            <Link href="/ayarlar" className="space-x-2">
-              <SettingsIcon className="h-4 w-4" />
-              <p className={cn("", open ? "" : "hidden")}>Anasayfa</p>
-            </Link>
-          </Button>
-          <Button asChild variant="ghost" className="w-full justify-start">
-            <Link href="/profil" className="space-x-2">
-              <User2Icon className="h-4 w-4" />
-              <p className={cn("", open ? "" : "hidden")}>Anasayfa</p>
-            </Link>
+            <Link href="/">Profil</Link>
           </Button>
         </div>
       </div>
-      <ModeToggle />
-      <div className="mt-auto p-2 border-t">
+      <div className="flex items-center justify-center"></div>
+      <div className="mt-auto p-2 border-t space-y-2">
+        <ModeToggle />
         <SignOutButton>
           <Button className="w-full">
             <p className={cn("mr-2", open ? "" : "hidden")}>Çıkış Yap</p>

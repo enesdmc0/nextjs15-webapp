@@ -1,5 +1,5 @@
 "use client";
-import React, { FC, useEffect } from "react";
+import React, { FC } from "react";
 import Questions from "@/components/questions";
 import QuestionDetail from "@/components/question-detail";
 import { Answer, Comment, Question } from "@prisma/client";
@@ -26,10 +26,6 @@ const Content: FC<Props> = ({ questions, comments, answers, totalAnswers }) => {
   const [aOpen, setAOpen] = useAtom(aAtom);
   const [bOpen, setBOpen] = useAtom(bAtom);
 
-  
-
-
-
   if (!mounted) return null;
 
   return (
@@ -51,13 +47,19 @@ const Content: FC<Props> = ({ questions, comments, answers, totalAnswers }) => {
           aOpen ? "" : "hidden"
         )}
       >
-        <Questions questions={questions ?? []} answers={answers}></Questions>
+        <Questions questions={questions ?? []} answers={answers} />
       </div>
 
       <div
         className={cn(
-          "col-span-1 overflow-y-auto h-full border-l", windowWidth < 768 && aOpen ? "hidden" : 
-          !activeQuestion ? "hidden" : bOpen ? "" : "hidden"
+          "col-span-1 overflow-y-auto h-full border-l",
+          windowWidth < 768 && aOpen
+            ? "hidden"
+            : !activeQuestion
+            ? "hidden"
+            : bOpen
+            ? ""
+            : "hidden"
         )}
       >
         <QuestionDetail
@@ -65,7 +67,7 @@ const Content: FC<Props> = ({ questions, comments, answers, totalAnswers }) => {
           answers={answers}
           totalAnswers={totalAnswers}
           comments={comments}
-        ></QuestionDetail>
+        />
       </div>
     </div>
   );
