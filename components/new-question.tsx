@@ -41,8 +41,9 @@ export function NewQuestion() {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button>
-          <PlusCircleIcon className="mr-2 h-4 w-4" /> Soru Sor
+        <Button className="flex items-center gap-2">
+          <PlusCircleIcon className=" h-4 w-4" /> 
+          <p className="hidden md:block">Soru Sor</p>
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">

@@ -7,7 +7,6 @@ import { Answer, Question } from "@prisma/client";
 import { ModeToggle } from "./mode-toggle";
 import QuestionCard from "./question-card";
 import { Button } from "./ui/button";
-import { HamIcon } from "lucide-react";
 import { HamburgerMenuIcon } from "@radix-ui/react-icons";
 import { useAtom } from "jotai";
 import { navbarOpenAtom } from "@/lib/atom";
@@ -15,11 +14,11 @@ import { navbarOpenAtom } from "@/lib/atom";
 interface Props {
   questions: Question[];
   answers: Answer[];
-  togglePanel: () => void;
+
 }
 
-const Questions: FC<Props> = ({ questions, answers, togglePanel }) => {
-  const [open, setOpen] = useAtom(navbarOpenAtom)
+const Questions: FC<Props> = ({ questions, answers }) => {
+  const [open, setOpen] = useAtom(navbarOpenAtom);
   const customQuestions = questions.map((x) => {
     const answer = answers.find((y) => y.questionId === x.id);
     return {
@@ -30,9 +29,14 @@ const Questions: FC<Props> = ({ questions, answers, togglePanel }) => {
 
   return (
     <div className="flex flex-col ">
-      <ScrollArea className="w-full h-screen pb-4 ">
+      <div className=" h-screen pb-4 ">
         <div className="px-4 py-2 flex justify-end gap-5">
-          <Button onClick={() => setOpen(prev => !prev)} variant="outline" size="icon" className="mr-auto ">
+          <Button
+            onClick={() => setOpen((prev) => !prev)}
+            variant="outline"
+            size="icon"
+            className="mr-auto "
+          >
             <HamburgerMenuIcon className="h-4 w-4" />
           </Button>
           <ModeToggle />
@@ -47,13 +51,13 @@ const Questions: FC<Props> = ({ questions, answers, togglePanel }) => {
             Aradığınız Kategoriye Ait Soru Bulunamadı.
           </div>
         ) : (
-          <div className="flex flex-col gap-4 px-4 mt-4">
+          <div className="flex flex-1 flex-col gap-4 px-4 mt-4">
             {customQuestions.map((x, i) => (
-              <QuestionCard {...x} key={i} togglePanel={togglePanel} />
+              <QuestionCard {...x} key={i} />
             ))}
           </div>
         )}
-      </ScrollArea>
+      </div>
     </div>
   );
 };

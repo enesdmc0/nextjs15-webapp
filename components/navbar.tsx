@@ -4,8 +4,7 @@ import { categories } from "@/constants";
 import { cn } from "@/lib/utils";
 import React from "react";
 import { Separator } from "./ui/separator";
-import { useRouter, useParams } from "next/navigation";
-import { UserButton } from "@clerk/nextjs";
+import { useParams } from "next/navigation";
 import { SignOutButton } from "@clerk/nextjs";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import {
@@ -19,34 +18,72 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { useAtom } from "jotai";
-import { navbarOpenAtom } from "@/lib/atom";
+import { aAtom, bAtom, navbarOpenAtom } from "@/lib/atom";
+import useWindowWidth from "@/lib/useWindow";
 
 const Navbar = () => {
   const { slug } = useParams();
   const [open, setOpen] = useAtom(navbarOpenAtom);
-
+  const [aOpen, setAOpen] = useAtom(aAtom);
+  const [bOpen, setBOpen] = useAtom(bAtom);
+  const windowWidth = useWindowWidth();
+  const activeQuestion = slug ? slug[1] : null;
   const category = slug ? slug[0] : "all";
+
+  const handleA = () => {
+    if (windowWidth < 768) {
+      if (setBOpen) {
+        setBOpen(false);
+        setAOpen(true);
+      } else {
+        setAOpen((prev) => !prev);
+      }
+    } else {
+      if (!bOpen) return;
+      setAOpen((prev) => !prev);
+    }
+  };
+
+
+  const handleB = () => {
+    if (windowWidth < 768) {
+      if (setAOpen) {
+        setAOpen(false);
+        setBOpen(true);
+      } else {
+        setBOpen((prev) => !prev);
+      }
+    } else {
+      if (!aOpen) return;
+      setBOpen((prev) => !prev);
+    }
+  };
 
   return (
     <div
       className={cn(
-        " transition-all duration-400 h-screen sticky left-0 top-0 flex flex-col group border-r overflow-hidden",
-        open ? "w-60" : " w-0 md:w-16"
+        " transition-all duration-400 h-screen sticky left-0 top-0 flex flex-col group border-r ",
+        open ? "w-60" : " hidden"
       )}
     >
       {/* logo */}
       <div className="flex items-center justify-center h-[52px] font-mono tracking-widest font-semibold text-lg ">
-      <TentTree className={cn("", open ? "hidden" : "")} />
-      <p className={cn("", open ? "" : "hidden")}>enesdmc</p>
+        <TentTree className={cn("", open ? "hidden" : "")} />
+        <p className={cn("", open ? "" : "hidden")}>enesdmc</p>
       </div>
       <Separator />
 
       {/* categories */}
       <ScrollArea className="h-1/2">
         <div className="space-y-1  mt-5">
-          <h2 className={cn(" px-4 text-lg font-semibold tracking-tight flex items-center  gap-2", open ? "justify-start" : "justify-center")}>
-          <TableOfContents className="size-5" />
-          <p className={cn("", open ? "" : "hidden")}>Kategoriler</p>
+          <h2
+            className={cn(
+              " px-4 text-lg font-semibold tracking-tight flex items-center  gap-2",
+              open ? "justify-start" : "justify-center"
+            )}
+          >
+            <TableOfContents className="size-5" />
+            <p className={cn("", open ? "" : "hidden")}>Kategoriler</p>
           </h2>
           <Separator />
           <div className="p-2">
@@ -91,11 +128,14 @@ const Navbar = () => {
           </Button>
         </div>
       </div>
-
+      <div>
+        <Button onClick={handleA}>a</Button>
+        <Button onClick={handleB}>b</Button>
+      </div>
       <div className="mt-auto p-2 border-t">
         <SignOutButton>
           <Button className="w-full">
-          <p className={cn("mr-2", open ? "" : "hidden")}>Çıkış Yap</p>
+            <p className={cn("mr-2", open ? "" : "hidden")}>Çıkış Yap</p>
             <LogOutIcon className=" h-4 w-4" />
           </Button>
         </SignOutButton>

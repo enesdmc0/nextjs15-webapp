@@ -4,6 +4,9 @@ import { cn } from "@/lib/utils";
 import { useParams } from "next/navigation";
 import { CircleCheck } from "lucide-react";
 import Link from "next/link";
+import { useAtom } from "jotai";
+import { aAtom, bAtom } from "@/lib/atom";
+import useWindowWidth from "@/lib/useWindow";
 
 interface Props {
   id: number;
@@ -12,7 +15,6 @@ interface Props {
   option2: string;
   answer: number | undefined;
   createdAt: Date;
-  togglePanel: () => void;
 }
 
 const QuestionCard: FC<Props> = ({
@@ -22,32 +24,15 @@ const QuestionCard: FC<Props> = ({
   option2,
   answer,
   createdAt,
-  togglePanel,
 }) => {
   const { slug } = useParams();
   const category = slug ? slug[0] : "all";
   const activeQuestion = slug ? slug[1] : null;
-
+  const [aOpen, setAOpen] = useAtom(aAtom);
+  const [bOpen, setBOpen] = useAtom(bAtom);
+  const windowWidth = useWindowWidth();
   const date = new Date(createdAt);
-  const [isMobile, setIsMobile] = useState(false);
 
-  useEffect(() => {
-    const checkIsMobile = () => {
-      if (typeof window !== "undefined") {
-        setIsMobile(window.innerWidth < 768);
-      }
-    };
-
-    if (typeof window !== "undefined") {
-      checkIsMobile();
-
-      window.addEventListener("resize", checkIsMobile);
-
-      return () => {
-        window.removeEventListener("resize", checkIsMobile);
-      };
-    }
-  }, []);
   const formattedDate = new Intl.DateTimeFormat("tr-TR", {
     // weekday: 'long',
     // year: 'numeric',
@@ -59,17 +44,26 @@ const QuestionCard: FC<Props> = ({
   }).format(date);
 
   const handleClick = () => {
-    if (isMobile) {
-      togglePanel();
+    // If the window width is less than 768px
+    if (windowWidth < 768) {
+      // If aOpen is true, close it and open bOpen
+      if (aOpen) {
+        setAOpen(false);
+        setBOpen(true);
+        return;
+      }
+    } else {
+      // For larger screens, just open bOpen
+      setBOpen(true);
     }
   };
 
   return (
     <Link
-      href={`/${category}/${id}`}
       onClick={handleClick}
+      href={`/${category}/${id}`}
       className={cn(
-        "border rounded-md p-4 space-y-4 cursor-pointer",
+        "border rounded-md p-4 space-y-4 cursor-pointer ",
         Number(activeQuestion) === id && "bg-muted"
       )}
     >
@@ -77,9 +71,9 @@ const QuestionCard: FC<Props> = ({
         <p className="text-sm">{text}</p>
         <p className="text-xs">{formattedDate}</p>
       </div>
-      <div className={cn("flex gap-4 ml-auto w-full")}>
+      <div className={cn("grid grid-cols-2 gap-4 ml-auto w-full")}>
         <Button className={cn("flex-1 flex items-center justify-center")}>
-          <p className="flex-1">{option1}</p>
+          <p className="flex-1 truncate">{option1}</p>
           <CircleCheck
             className={cn(
               "size-5 ml-auto",
@@ -88,7 +82,7 @@ const QuestionCard: FC<Props> = ({
           />
         </Button>
         <Button className={cn("flex-1 flex items-center justify-center")}>
-          <p className="flex-1">{option2}</p>
+          <p className="flex-1 truncate">{option2}</p>
           <CircleCheck
             className={cn(
               "size-5 ml-auto",

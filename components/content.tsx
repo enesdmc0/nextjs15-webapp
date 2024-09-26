@@ -1,17 +1,15 @@
 "use client";
-import React, { FC, useEffect, useRef, useState } from "react";
-import {
-  ResizableHandle,
-  ResizablePanel,
-  ResizablePanelGroup,
-} from "@/components/ui/resizable";
+import React, { FC, useEffect } from "react";
 import Questions from "@/components/questions";
 import QuestionDetail from "@/components/question-detail";
 import { Answer, Comment, Question } from "@prisma/client";
 import { TotalAnswers } from "@/types";
-import { ImperativePanelHandle } from "react-resizable-panels";
-import { Button } from "./ui/button";
-import { ArrowLeft, ArrowRight } from "lucide-react";
+import { useParams } from "next/navigation";
+import { useAtom } from "jotai";
+import { aAtom, bAtom } from "@/lib/atom";
+import { cn } from "@/lib/utils";
+import useWindowWidth from "@/lib/useWindow";
+import useMounted from "@/lib/use-mounted";
 
 interface Props {
   questions: Question[];
@@ -21,69 +19,52 @@ interface Props {
 }
 
 const Content: FC<Props> = ({ questions, comments, answers, totalAnswers }) => {
-  const [sizes, setSizes] = useState<number[]>([]);
-  const ref = useRef<ImperativePanelHandle>(null);
-  const [isCollapsed, setIsCollapsed] = useState(false);
+  const mounted = useMounted();
+  const { slug } = useParams();
+  const activeQuestion = slug ? slug[1] : null;
+  const windowWidth = useWindowWidth();
 
+  const [aOpen, setAOpen] = useAtom(aAtom);
+  const [bOpen, setBOpen] = useAtom(bAtom);
 
-
-  const togglePanel = () => {
-    const panel = ref.current;
-    if (panel) {
-      if (isCollapsed) {
-        panel.expand();
-      } else {
-        panel.collapse();
-      }
-      setIsCollapsed(!isCollapsed);
-    }
-  };
-
-  const handleResize = (sizes: number[]) => {
-    document.cookie = `resizable=${JSON.stringify(sizes)}`;
-    setSizes(sizes);
-    // Update the isCollapsed state based on the size of the panel
-    if (sizes[0] === 0) {
-      setIsCollapsed(true);
-    } else {
-      setIsCollapsed(false);
-    }
-  };
+  if (!mounted) return null;
 
   return (
-    <ResizablePanelGroup
-      direction="horizontal"
-      autoSaveId="persistence"
-      onLayout={handleResize}
+    <div
+      className={cn(
+        "grid w-full",
+        windowWidth < 768
+          ? "grid-cols-1"
+          : !activeQuestion
+          ? "grid-cols-1"
+          : !aOpen || !bOpen
+          ? "grid-cols-1"
+          : "grid-cols-2"
+      )}
     >
-      <ResizablePanel collapsible minSize={20} ref={ref}>
-        <Questions
-          questions={questions ?? []}
-          answers={answers}
-          togglePanel={togglePanel}
-        />
-      </ResizablePanel>
+      <div
+        className={cn(
+          "col-span-1 overflow-y-auto h-full ",
+          aOpen ? "" : "hidden"
+        )}
+      >
+        <Questions questions={questions ?? []} answers={answers}></Questions>
+      </div>
 
-      <ResizableHandle withHandle />
-
-      <ResizablePanel collapsible minSize={35}>
+      <div
+        className={cn(
+          "col-span-1 overflow-y-auto h-full",
+          !activeQuestion ? "hidden" : bOpen ? "" : "hidden"
+        )}
+      >
         <QuestionDetail
           questions={questions ?? []}
           answers={answers}
           totalAnswers={totalAnswers}
           comments={comments}
-        >
-          <Button
-            className="mr-auto flex items-center gap-1"
-            onClick={togglePanel}
-          >
-            {!isCollapsed && <ArrowLeft className="size-4" />}
-            {isCollapsed ? "Soruları Aç" : "Soruları Kapat"}
-            {isCollapsed && <ArrowRight className="size-4" />}
-          </Button>
-        </QuestionDetail>
-      </ResizablePanel>
-    </ResizablePanelGroup>
+        ></QuestionDetail>
+      </div>
+    </div>
   );
 };
 
