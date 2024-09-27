@@ -49,7 +49,7 @@ export async function POST(req: Request) {
     const eventType = event.type
 
     if (eventType === 'user.created') {
-        const { id, email_addresses, first_name } = event.data
+        const { id, email_addresses, first_name, last_name, image_url } = event.data
 
         if (!id || !email_addresses) {
             console.error('Invalid user creation data received');
@@ -60,8 +60,9 @@ export async function POST(req: Request) {
         try {
             await prisma.user.create({
                 data: {
-                    email: email_addresses[0].email_address ,
-                    name: first_name || 'Unknown',
+                    email: email_addresses[0].email_address,
+                    name: `${first_name} ${last_name}` || 'Anonymous User',
+                    image: image_url || "https://images.unsplash.com/photo-1511406361295-0a1ff814c0ce?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                 },
             });
             console.info('New user created successfully');

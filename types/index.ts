@@ -1,3 +1,12 @@
+import { Comment as PrismaComment, User } from "@prisma/client";
+
+export interface CommentWithUser extends PrismaComment {
+  user: {
+    name: string;
+    image: string;
+  };
+}
+
 export interface Question {
     id: number
     text: string;

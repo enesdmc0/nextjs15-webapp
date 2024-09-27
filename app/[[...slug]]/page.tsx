@@ -7,8 +7,9 @@ import {
   getQuestions,
   getTotalAnswerForQuestion,
 } from "@/lib/actions";
-import { Answer, Comment, Question } from "@prisma/client";
-import { TotalAnswers } from "@/types";
+import { Answer, Question } from "@prisma/client";
+import { CommentWithUser, TotalAnswers } from "@/types";
+import { auth, currentUser } from "@clerk/nextjs/server";
 
 interface Props {
   params: {
@@ -21,14 +22,14 @@ const Home: React.FC<Props> = async ({ params }) => {
   const activeQuestion = Number(params.slug?.[1]) ?? null;
 
   const GET_QUESTIONS: Promise<Question[]> = getQuestions(category);
-  const GET_COMMENTS: Promise<Comment[]> = getComments(activeQuestion);
+  const GET_COMMENTS: Promise<CommentWithUser[]> = getComments(activeQuestion);
   const GET_ANSWERS: Promise<Answer[]> = getAnswers();
   const GET_TOTAL_ANSWERS: Promise<Answer[]> =
     getTotalAnswerForQuestion(activeQuestion);
 
   const [questions, comments, answers, totalAnswers]: [
     Question[],
-    Comment[],
+    CommentWithUser[],
     Answer[],
     Answer[]
   ] = await Promise.all([

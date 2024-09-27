@@ -3,7 +3,7 @@ import React, { FC } from "react";
 import Questions from "@/components/questions";
 import QuestionDetail from "@/components/question-detail";
 import { Answer, Comment, Question } from "@prisma/client";
-import { TotalAnswers } from "@/types";
+import { CommentWithUser, TotalAnswers } from "@/types";
 import { useParams } from "next/navigation";
 import { useAtom } from "jotai";
 import { aAtom, bAtom } from "@/lib/atom";
@@ -13,7 +13,7 @@ import useMounted from "@/lib/use-mounted";
 
 interface Props {
   questions: Question[];
-  comments: Comment[];
+  comments: CommentWithUser[];
   answers: Answer[];
   totalAnswers: TotalAnswers;
 }

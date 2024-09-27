@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 import React from "react";
 import { Separator } from "./ui/separator";
 import { useParams } from "next/navigation";
-import { SignOutButton } from "@clerk/nextjs";
+import { SignOutButton, UserButton, UserProfile } from "@clerk/nextjs";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { LogOutIcon } from "lucide-react";
 import Link from "next/link";
@@ -29,6 +29,7 @@ const Navbar = () => {
       {/* logo */}
       <div className="flex items-center justify-center h-[52px] font-mono tracking-widest font-semibold text-lg ">
         <p className={cn("", open ? "" : "hidden")}>enesdmc</p>
+        {/* <UserButton/> */}
       </div>
       <Separator />
 

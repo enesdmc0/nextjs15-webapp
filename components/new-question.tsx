@@ -74,7 +74,6 @@ export function NewQuestion() {
                 <SelectGroup>
                   {/* <SelectLabel>Fruits</SelectLabel> */}
                   {Object.entries(categories)
-                    .slice(1)
                     .map(([key, value]) => (
                       <SelectItem key={key} value={key}>
                         {value}

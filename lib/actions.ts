@@ -4,6 +4,8 @@ import { currentUser } from "@clerk/nextjs/server";
 import prisma from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import { Answer, Comment, Question } from "@prisma/client";
+import { cookies } from "next/headers";
+import { CommentWithUser } from "@/types";
 
 export const getQuestions = async (category: string): Promise<Question[]> => {
 
@@ -19,7 +21,7 @@ export const getQuestions = async (category: string): Promise<Question[]> => {
     }
 }
 
-export const getComments = async (questionId: number): Promise<Comment[]> => {
+export const getComments = async (questionId: number): Promise<CommentWithUser[]> => {
     try {
 
         if (!questionId) {
@@ -30,6 +32,14 @@ export const getComments = async (questionId: number): Promise<Comment[]> => {
         const comments = await prisma.comment.findMany({
             where: {
                 questionId
+            },
+            include: {
+                user: {
+                    select: {
+                        name: true,
+                        image: true
+                    }
+                }
             }
         });
         return comments;
@@ -240,4 +250,3 @@ export const getTotalAnswerForQuestion = async (questionId: number) => {
     }
 
 }
-

@@ -63,7 +63,7 @@ const QuestionCard: FC<Props> = ({
       onClick={handleClick}
       href={`/${category}/${id}`}
       className={cn(
-        "border rounded-md p-4 space-y-4 cursor-pointer ",
+        "border rounded-md p-3 space-y-4 cursor-pointer ",
         Number(activeQuestion) === id && "bg-muted"
       )}
     >
@@ -71,8 +71,8 @@ const QuestionCard: FC<Props> = ({
         <p className="text-sm">{text}</p>
         <p className="text-xs">{formattedDate}</p>
       </div>
-      <div className={cn("grid grid-cols-2 gap-4 ml-auto w-full")}>
-        <Button disabled={answer === 0} className={cn("flex-1 flex items-center justify-center")}>
+      <div className={cn("grid grid-cols-2 gap-4 ml-auto w-full 2xl:w-1/2")}>
+        <Button disabled={answer !== undefined} className={cn("flex-1 flex items-center justify-center")} size="sm">
           <p className="flex-1 truncate">{option1}</p>
           <CircleCheck
             className={cn(
@@ -81,7 +81,7 @@ const QuestionCard: FC<Props> = ({
             )}
           />
         </Button>
-        <Button disabled={answer === 0} className={cn("flex-1 flex items-center justify-center")}>
+        <Button disabled={answer !== undefined} className={cn("flex-1 flex items-center justify-center")} size="sm">
           <p className="flex-1 truncate">{option2}</p>
           <CircleCheck
             className={cn(

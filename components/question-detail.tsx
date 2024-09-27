@@ -20,14 +20,14 @@ import {
 import { createAnswer } from "@/lib/actions";
 import CommentCard from "./comment-card";
 import { toast } from "sonner";
-import { TotalAnswers } from "@/types";
+import { CommentWithUser, TotalAnswers } from "@/types";
 import { useAtom } from "jotai";
 import { aAtom, bAtom, navbarOpenAtom } from "@/lib/atom";
 import { HamburgerMenuIcon } from "@radix-ui/react-icons";
 import useWindowWidth from "@/lib/use-window";
 interface Props {
   questions: Question[];
-  comments: Comment[];
+  comments: CommentWithUser[];
   answers: Answer[];
   totalAnswers: TotalAnswers;
 }
@@ -37,6 +37,7 @@ const QuestionDetail: FC<Props> = ({
   comments,
   answers,
   totalAnswers,
+  
 }) => {
   const [data, action, isPending] = useActionState(createAnswer, null);
   const [activeAnswer, setActiveAnswer] = useState<0 | 1>(0);
