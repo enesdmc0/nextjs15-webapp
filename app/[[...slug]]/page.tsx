@@ -9,7 +9,6 @@ import {
 } from "@/lib/actions";
 import { Answer, Question } from "@prisma/client";
 import { CommentWithUser, TotalAnswers } from "@/types";
-import { auth, currentUser } from "@clerk/nextjs/server";
 
 interface Props {
   params: {

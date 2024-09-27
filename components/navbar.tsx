@@ -17,7 +17,7 @@ const Navbar = () => {
   const { slug } = useParams();
   const [open, setOpen] = useAtom(navbarOpenAtom);
 
-  const category = slug ? slug[0] : "all";
+  const category = slug ? slug[0] : "spor";
 
   return (
     <div
@@ -28,7 +28,7 @@ const Navbar = () => {
     >
       {/* logo */}
       <div className="flex items-center justify-center h-[52px] font-mono tracking-widest font-semibold text-lg ">
-        <p className={cn("", open ? "" : "hidden")}>enesdmc</p>
+        <p className={cn("", open ? "" : "hidden")}>1mi2mi</p>
         {/* <UserButton/> */}
       </div>
       <Separator />
@@ -63,7 +63,7 @@ const Navbar = () => {
       </ScrollArea>
 
       {/* diğer */}
-      <div className="space-y-1 mt-5">
+      {/* <div className="space-y-1 mt-5">
         <Separator />
         <div className="p-2">
           <Button asChild variant="ghost" className="w-full justify-start">
@@ -73,9 +73,11 @@ const Navbar = () => {
             <Link href="/">Profil</Link>
           </Button>
         </div>
-      </div>
-      <div className="flex items-center justify-center"></div>
+      </div> */}
       <div className="mt-auto p-2 border-t space-y-2">
+        <Button asChild variant="outline" className="w-full">
+          <a href="https://enesdmc.com" target="_blank" className="text-xs">Build By <span className="underline ml-1">Enes Demirci </span></a>
+        </Button>
         <ModeToggle />
         <SignOutButton>
           <Button className="w-full">

@@ -26,7 +26,7 @@ const QuestionCard: FC<Props> = ({
   createdAt,
 }) => {
   const { slug } = useParams();
-  const category = slug ? slug[0] : "all";
+  const category = slug ? slug[0] : "spor";
   const activeQuestion = slug ? slug[1] : null;
   const [aOpen, setAOpen] = useAtom(aAtom);
   const [bOpen, setBOpen] = useAtom(bAtom);
