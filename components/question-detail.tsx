@@ -37,7 +37,6 @@ const QuestionDetail: FC<Props> = ({
   comments,
   answers,
   totalAnswers,
-  
 }) => {
   const [data, action, isPending] = useActionState(createAnswer, null);
   const [activeAnswer, setActiveAnswer] = useState<0 | 1>(0);
@@ -118,171 +117,157 @@ const QuestionDetail: FC<Props> = ({
   };
 
   return (
-    <ScrollArea className="h-screen">
-      <div className="flex flex-col h-screen">
-        <div className="px-4 py-2 flex gap-4 justify-end">
-          <Button
-            onClick={() => setNavbar((prev) => !prev)}
-            variant="outline"
-            size="icon"
-            className={cn("mr-auto md:hidden ", aOpen && "hidden")}
-          >
-            <HamburgerMenuIcon className="h-4 w-4" />
-          </Button>
-          <Button onClick={handleA} variant="outline" size="icon">
-            <ChevronLeft className={cn("size-5", aOpen ? "" : "hidden")} />
-            <ChevronRight className={cn("size-5", aOpen ? "hidden" : "")} />
-          </Button>
-        </div>
+    <div className="flex flex-col h-screen">
+      <div className="px-4 py-2 flex gap-4 justify-end">
+        <Button
+          onClick={() => setNavbar((prev) => !prev)}
+          variant="outline"
+          size="icon"
+          className={cn("mr-auto md:hidden ", aOpen && "hidden")}
+        >
+          <HamburgerMenuIcon className="h-4 w-4" />
+        </Button>
+        <Button onClick={handleA} variant="outline" size="icon">
+          <ChevronLeft className={cn("size-5", aOpen ? "" : "hidden")} />
+          <ChevronRight className={cn("size-5", aOpen ? "hidden" : "")} />
+        </Button>
+      </div>
 
-        <Separator />
+      <Separator />
 
-        <div className="flex flex-col px-4 my-4">
-          <p className="font-semibold text-xl">{text}</p>
-        </div>
+      <div className="flex flex-col px-4 my-4">
+        <p className="font-semibold text-xl">{text}</p>
+      </div>
 
-        <Dialog open={open} onOpenChange={setOpen}>
-          {question.answer === undefined ? (
-            <DialogTrigger asChild>
-              <div className={cn("flex gap-4 px-4 ")}>
-                <Button
-                  onClick={() => handleActive(0)}
-                  className="flex-1 line-clamp-1"
-                >
-                  {option1}
-                </Button>
-                <Button
-                  onClick={() => handleActive(1)}
-                  className="flex-1 line-clamp-1"
-                >
-                  {option2}
-                </Button>
-              </div>
-            </DialogTrigger>
-          ) : (
-            <>
-              <div className={cn("flex gap-4 px-4")}>
-                <Button
-                  className={cn("flex-1 flex items-center justify-center")}
-                >
-                  <p className="flex-1">{option1}</p>
-                  <CircleCheck
-                    className={cn(
-                      "size-5 ml-auto",
-                      question.answer === 0 ? "opacity-100" : "opacity-0"
-                    )}
-                  />
-                </Button>
-                <Button
-                  className={cn("flex-1 flex items-center justify-center")}
-                >
-                  <p className="flex-1">{option2}</p>
-                  <CircleCheck
-                    className={cn(
-                      "size-5 ml-auto",
-                      question.answer === 1 ? "opacity-100" : "opacity-0"
-                    )}
-                  />
-                </Button>
-              </div>
-              <p className="text-red-500 text-xs px-4 pt-2 text-center">
-                Bu Soru için Daha Önce Oy Kullandınız.
-              </p>
-            </>
-          )}
-          <DialogContent className="sm:max-w-[425px]">
-            <DialogHeader>
-              <DialogTitle>Bu Cevap için Emin Misin ?</DialogTitle>
-              {/* <DialogDescription>Test Desc</DialogDescription> */}
-            </DialogHeader>
-            <form action={action}>
-              <Button type="submit" variant="default" disabled={isPending}>
-                Onayla
+      <Dialog open={open} onOpenChange={setOpen}>
+        {question.answer === undefined ? (
+          <DialogTrigger asChild>
+            <div className={cn("flex flex-col md:flex-row gap-4 px-4 ")}>
+              <Button
+                onClick={() => handleActive(0)}
+                className="flex-1 line-clamp-1 truncate"
+              >
+                {option1}
               </Button>
               <Button
-                type="button"
-                variant="ghost"
-                onClick={() => setOpen((prev) => !prev)}
+                onClick={() => handleActive(1)}
+                className="flex-1 line-clamp-1 truncate"
               >
-                Vazgeç
+                {option2}
               </Button>
-              <input
-                type="text"
-                name="option"
-                value={activeAnswer}
-                readOnly
-                className="hidden"
-              />
-              <input
-                type="text"
-                name="questionId"
-                value={activeQuestion}
-                readOnly
-                className="hidden"
-              />
-            </form>
-            {/* <DialogFooter>enes demirci</DialogFooter> */}
-          </DialogContent>
-        </Dialog>
-        <Separator className="mt-4" />
-
-        <div className="m-4 gap-4 grid grid-cols-1 lg:grid-cols-2">
-          <Button
-            variant="outline"
-            className="flex items-center justify-between"
-          >
-            <p className="underline">Toplam Oy:</p>
-            <p>{totalAnswers?.length}</p>
-          </Button>
-          <Button
-            variant="outline"
-            className="col-span-1 text-xs flex justify-between"
-          >
-            <p>{totalAnswers.option1Length} Oy</p>
-            <Separator orientation="vertical" />
-            <p>{totalAnswers.option2Length} Oy</p>
-          </Button>
-
-          <Button
-            variant="outline"
-            className="flex items-center justify-between"
-          >
-            <p className="underline">Tarih:</p>
-            <p>{formattedDate}</p>
-          </Button>
-          <Button
-            variant="outline"
-            className="flex items-center justify-between"
-          >
-            <p className="underline">Categori</p>
-            <p className="capitalize">{category}</p>
-          </Button>
-        </div>
-
-        <Separator />
-        <div className="p-4 flex items-center justify-between">
-          <h2 className="underline">Yorumlar</h2>
-
-          <Button size="sm" variant="outline">
-            {comments?.length}
-          </Button>
-        </div>
-
-        <div className="px-4 flex flex-col flex-1 gap-4 mb-4">
-          {comments.length > 0 ? (
-            comments?.map((x, i) => <CommentCard key={i} {...x} />)
-          ) : (
-            <div className="flex items-center justify-center h-40 underline">
-              Henüz Yorum Yapılmamış.
             </div>
-          )}
-        </div>
+          </DialogTrigger>
+        ) : (
+          <>
+            <div className={cn("flex flex-col md:flex-row gap-4 px-4")}>
+              <Button className={cn("flex-1 flex items-center justify-center")}>
+                <p className="flex-1">{option1}</p>
+                <CircleCheck
+                  className={cn(
+                    "size-5 ml-auto",
+                    question.answer === 0 ? "opacity-100" : "opacity-0"
+                  )}
+                />
+              </Button>
+              <Button className={cn("flex-1 flex items-center justify-center")}>
+                <p className="flex-1">{option2}</p>
+                <CircleCheck
+                  className={cn(
+                    "size-5 ml-auto",
+                    question.answer === 1 ? "opacity-100" : "opacity-0"
+                  )}
+                />
+              </Button>
+            </div>
+            <p className="text-red-500 text-xs px-4 pt-2 text-center">
+              Bu Soru için Daha Önce Oy Kullandınız.
+            </p>
+          </>
+        )}
+             <DialogContent className="w-[90%] rounded-lg md:w-full">
+          <DialogHeader>
+            <DialogTitle className="text-start">Bu Cevap için Emin Misin ?</DialogTitle>
+            {/* <DialogDescription>Test Desc</DialogDescription> */}
+          </DialogHeader>
+          <form action={action} className="ml-auto space-x-4">
+            
+            <Button
+              type="button"
+              variant="ghost"
+              onClick={() => setOpen((prev) => !prev)}
+            >
+              Vazgeç
+            </Button>
+            <Button type="submit" variant="default" disabled={isPending}>
+              Onayla
+            </Button>
+            <input
+              type="text"
+              name="option"
+              value={activeAnswer}
+              readOnly
+              className="hidden"
+            />
+            <input
+              type="text"
+              name="questionId"
+              value={activeQuestion}
+              readOnly
+              className="hidden"
+            />
+          </form>
+          {/* <DialogFooter>enes demirci</DialogFooter> */}
+        </DialogContent>
+      </Dialog>
+      <Separator className="mt-4" />
 
-        <Separator className="mb-4" />
+      <div className="m-4 gap-4 grid grid-cols-1 lg:grid-cols-2">
+        <Button variant="outline" className="flex items-center justify-between">
+          <p className="underline">Toplam Oy:</p>
+          <p>{totalAnswers?.length}</p>
+        </Button>
+        <Button
+          variant="outline"
+          className="col-span-1 text-xs flex justify-between"
+        >
+          <p>{totalAnswers.option1Length} Oy</p>
+          <Separator orientation="vertical" />
+          <p>{totalAnswers.option2Length} Oy</p>
+        </Button>
 
-        <NewComment />
+        <Button variant="outline" className="flex items-center justify-between">
+          <p className="underline">Tarih:</p>
+          <p>{formattedDate}</p>
+        </Button>
+        <Button variant="outline" className="flex items-center justify-between">
+          <p className="underline">Categori</p>
+          <p className="capitalize">{category}</p>
+        </Button>
       </div>
-    </ScrollArea>
+
+      <Separator />
+      <div className="p-4 flex items-center justify-between">
+        <h2 className="underline">Yorumlar</h2>
+
+        <Button size="sm" variant="outline">
+          {comments?.length}
+        </Button>
+      </div>
+
+      <div className="px-4 flex flex-col flex-1 gap-4 mb-4">
+        {comments.length > 0 ? (
+          comments?.map((x, i) => <CommentCard key={i} {...x} />)
+        ) : (
+          <div className="flex items-center justify-center h-40 underline">
+            Henüz Yorum Yapılmamış.
+          </div>
+        )}
+      </div>
+
+      <Separator className="mb-4" />
+
+      <NewComment />
+    </div>
   );
 };
 

@@ -33,7 +33,7 @@ const CommentCard: FC<Props> = ({ text, createdAt, user }) => {
         <div className="flex flex-col w-full ">
           <div className="flex items-center justify-between ">
             <p className="text-xs underline">{user.name}</p>
-            <p className="text-xs ">{formattedDate}</p>
+            <p className="text-[10px] ">{formattedDate}</p>
           </div>
           <p className="text-sm flex-1">{text}</p>
         </div>

@@ -1,8 +1,8 @@
 "use client";
-import React, { FC } from "react";
+import React, { FC, Suspense } from "react";
 import Questions from "@/components/questions";
 import QuestionDetail from "@/components/question-detail";
-import { Answer, Comment, Question } from "@prisma/client";
+import { Answer, Question } from "@prisma/client";
 import { CommentWithUser, TotalAnswers } from "@/types";
 import { useParams } from "next/navigation";
 import { useAtom } from "jotai";

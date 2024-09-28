@@ -35,7 +35,7 @@ const Questions: FC<Props> = ({ questions, answers }) => {
       ...x,
     };
   });
-  
+
   const handleB = () => {
     if (windowWidth < 768) {
       if (!activeQuestion) return;
@@ -66,7 +66,12 @@ const Questions: FC<Props> = ({ questions, answers }) => {
 
           <NewQuestion />
 
-          <Button onClick={handleB} disabled={!activeQuestion}  variant="outline" size="icon">
+          <Button
+            onClick={handleB}
+            disabled={!activeQuestion}
+            variant="outline"
+            size="icon"
+          >
             <ChevronLeft className={cn("size-5", bOpen ? "hidden" : "")} />
             <ChevronRight className={cn("size-5", bOpen ? "" : "hidden")} />
           </Button>

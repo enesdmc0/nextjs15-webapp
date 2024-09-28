@@ -1,6 +1,7 @@
 "use client";
 import { atom } from "jotai";
 import { atomWithStorage } from "jotai/utils";
+import useWindowWidth from "./use-window";
 
 export const activeQuestionAtom = atomWithStorage<number | null>(
   "activeQuestion",

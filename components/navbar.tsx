@@ -2,7 +2,7 @@
 import { Button } from "@/components/ui/button";
 import { categories } from "@/constants";
 import { cn } from "@/lib/utils";
-import React from "react";
+import React, { useEffect } from "react";
 import { Separator } from "./ui/separator";
 import { useParams } from "next/navigation";
 import { SignOutButton, UserButton, UserProfile } from "@clerk/nextjs";
@@ -12,12 +12,17 @@ import Link from "next/link";
 import { useAtom } from "jotai";
 import { navbarOpenAtom } from "@/lib/atom";
 import { ModeToggle } from "./mode-toggle";
+import useWindowWidth from "@/lib/use-window";
 
 const Navbar = () => {
   const { slug } = useParams();
   const [open, setOpen] = useAtom(navbarOpenAtom);
-
+  const windowWidth = useWindowWidth();
   const category = slug ? slug[0] : "spor";
+
+  useEffect(() => {
+    if (windowWidth < 768) setOpen(false);
+  }, []);
 
   return (
     <div
@@ -45,7 +50,7 @@ const Navbar = () => {
             <p className={cn("", open ? "" : "hidden")}>Kategoriler</p>
           </h2>
           <Separator />
-          <div className="p-2">
+          <div className="p-2 space-y-2">
             {Object.entries(categories).map(([key, value], i) => (
               <Button
                 asChild
@@ -76,7 +81,9 @@ const Navbar = () => {
       </div> */}
       <div className="mt-auto p-2 border-t space-y-2">
         <Button asChild variant="outline" className="w-full">
-          <a href="https://enesdmc.com" target="_blank" className="text-xs">Build By <span className="underline ml-1">Enes Demirci </span></a>
+          <a href="https://enesdmc.com" target="_blank" className="text-xs">
+            Build By <span className="underline ml-1">Enes Demirci </span>
+          </a>
         </Button>
         <ModeToggle />
         <SignOutButton>
