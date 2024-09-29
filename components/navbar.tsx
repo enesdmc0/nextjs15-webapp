@@ -80,11 +80,6 @@ const Navbar = () => {
         </div>
       </div> */}
       <div className="mt-auto p-2 border-t space-y-2">
-        <Button asChild variant="outline" className="w-full">
-          <a href="https://enesdmc.com" target="_blank" className="text-xs">
-            Build By <span className="underline ml-1">Enes Demirci </span>
-          </a>
-        </Button>
         <ModeToggle />
         <SignOutButton>
           <Button className="w-full">
