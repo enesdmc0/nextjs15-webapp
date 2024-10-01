@@ -32,6 +32,53 @@ export default function SignUpPage() {
                     </CardDescription>
                   </CardHeader>
                   <CardContent className="grid gap-y-4">
+                    <div className="grid grid-cols-2 gap-x-4">
+                      <Clerk.Connection name="apple" asChild>
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          type="button"
+                          disabled={isGlobalLoading}
+                        >
+                          <Clerk.Loading scope="provider:github">
+                            {(isLoading) =>
+                              isLoading ? (
+                                <Icons.spinner className="size-4 animate-spin" />
+                              ) : (
+                                <>
+                                  <Icons.apple className="mr-2 size-4" />
+                                  Apple
+                                </>
+                              )
+                            }
+                          </Clerk.Loading>
+                        </Button>
+                      </Clerk.Connection>
+                      <Clerk.Connection name="google" asChild>
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          type="button"
+                          disabled={isGlobalLoading}
+                        >
+                          <Clerk.Loading scope="provider:google">
+                            {(isLoading) =>
+                              isLoading ? (
+                                <Icons.spinner className="size-4 animate-spin" />
+                              ) : (
+                                <>
+                                  <Icons.google className="mr-2 size-4" />
+                                  Google
+                                </>
+                              )
+                            }
+                          </Clerk.Loading>
+                        </Button>
+                      </Clerk.Connection>
+                    </div>
+                    <p className="flex items-center gap-x-3 text-sm text-muted-foreground before:h-px before:flex-1 before:bg-border after:h-px after:flex-1 after:bg-border">
+                      or
+                    </p>
                     <Clerk.Field name="emailAddress" className="space-y-2">
                       <Clerk.Label asChild>
                         <Label>Mail Adresi</Label>
