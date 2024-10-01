@@ -250,3 +250,9 @@ export const getTotalAnswerForQuestion = async (questionId: number) => {
     }
 
 }
+
+export const wait = async (ms: number) => {
+    return new Promise((resolve) => {
+        setTimeout(resolve, ms);
+    });
+}
